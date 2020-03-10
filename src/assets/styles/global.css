@@ -1,0 +1,13 @@
+ul,body,h1,p,h2,h3,h4,h5,h6{
+    margin: 0;
+    padding: 0;
+}
+ul{
+    list-style: none;
+}
+b,i,em,del{
+    font-style:normal;
+}
+body,html{
+    height: 100%;
+}

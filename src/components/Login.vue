@@ -1,0 +1,363 @@
+<template>
+
+   <div id="bgc">
+       <vue-particles color="#64f4e5"
+                      :particleOpacity="0.3"
+                      :particlesNumber="50"
+                      shapeType="polygon"
+                      :particleSize="30"
+                      linesColor="#64f4e5"
+                      :linesWidth="1"
+                      :lineLinked="false"
+                      :lineOpacity="0.4"
+                      :linesDistance="150"
+                      :moveSpeed="10"
+                      :hoverEffect="true"
+                      hoverMode="false"
+                      :clickEffect="true"
+                      clickMode="push"
+                      class="lizi"></vue-particles>
+
+       <div id="login"  >
+           <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" class="headimg"></el-avatar>
+           <el-form :model="ruleForm" status-icon :rules="rules" ref="loginForm" label-width="100px" class="demo-ruleForm">
+               <el-form-item class="lab" label="用户名" prop="username">
+                   <el-input class="in" type="text" v-model="ruleForm.username" autocomplete="off" ref="write"></el-input>
+               </el-form-item>
+               <el-form-item class="lab" label="密码" prop="password">
+                   <el-input class="in" type="password" v-model="ruleForm.password" @keydown.native.enter="submitForm('loginForm')" autocomplete="off"></el-input>
+               </el-form-item>
+
+               <el-form-item>
+                   <el-button  @click="submitForm('loginForm')" id="btn1" class="btn btn-primary btn-ghost btn-shine" style="margin-right: 15px">登陆</el-button>
+                   <el-button @click="dialogFormVisible=true" id="btn2" class="btn btn-primary btn-ghost btn-shine" style="margin-left: 15px">重置</el-button>
+               </el-form-item>
+           </el-form>
+
+
+
+
+       </div>
+       <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+           <el-form :model="ruleForm2" status-icon :rules="rules" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+               <el-form-item label="用户名" prop="username">
+                   <el-input type="text" v-model="ruleForm2.username" autocomplete="off"></el-input>
+               </el-form-item>
+               <el-form-item label="旧密码" prop="oldPass">
+                   <el-input type="text" v-model="ruleForm2.oldPassword" autocomplete="off"></el-input>
+               </el-form-item>
+               <el-form-item label="新密码" prop="newPass">
+                   <el-input v-model="ruleForm2.newPassword"  type="text"></el-input>
+               </el-form-item>
+               <el-form-item label="确认新密码" prop="newPass">
+                   <el-input v-model="ruleForm2.againPassword"  type="text"></el-input>
+               </el-form-item>
+
+           </el-form>
+           <div slot="footer" class="dialog-footer">
+               <el-button @click="dialogFormVisible = false">取 消</el-button>
+               <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+           </div>
+       </el-dialog>
+
+<div>
+
+
+
+
+</div>
+
+
+
+
+   </div>
+
+
+
+
+</template>
+
+
+<script>
+  import {login} from "@/api";
+  import qs from 'qs';
+  export default {
+
+    data(){
+      var validateUsn = (rule, value, callback) => {
+        var uPattern = /[a-zA-Z]{3}/;   //至少三位字符
+        let  res=uPattern.test(value);
+        if(res){
+          callback();
+        }else {
+          callback('请正确输入用户名');
+        }
+
+
+      };
+      var validatePass = (rule, value, callback) => {
+        if (!value){
+          callback("请输入密码")
+        }else{
+          callback()
+        }
+      };
+      return{
+        msg:'MyVue',
+        personImg:'',
+        dialogVisible:false,
+        dialogFormVisible:false,
+        ruleForm2: {
+          username:'',
+          oldPassword: '',
+          newPassword: '',
+          againPassword: ''
+        },
+
+
+        ruleForm: {
+          username: '',
+          password: '',
+        },
+        menuList:[
+          {  id:'1',
+            url:'',
+            children:{
+              id:'11',
+              url:''
+            }
+
+          },
+
+          {
+            id:'2',
+            url:'',
+          }
+
+        ],
+        rules: {
+          username: [
+            { validator: validateUsn, trigger: 'blur' }
+          ],
+          password: [
+            { validator: validatePass, trigger: 'blur' }
+          ]
+
+        }
+      }
+    },
+
+
+
+    methods:{
+
+
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            //登陆动画
+            const loading = this.$loading({
+              lock: true,
+              text: 'Loading',
+              spinner: 'el-icon-loading',
+              background: 'rgba(0, 0, 0, 0.7)'
+            });
+
+            let {username,password}=this.ruleForm;
+            var  _this=this;
+            login(username,password)
+              .then(res=>{
+                loading.close();
+                if (res.data.code ===200) {
+                  localStorage.setItem('token',res.data.data.userInfo);
+                  localStorage.setItem('level',res.data.data.userInfo.level);
+                  localStorage.setItem('nickname',res.data.data.userInfo.nickname);
+                  this.$router.push('/welcome');
+                  _this.$message({
+                    type:'success',
+                    message:'登陆成功'
+                  })
+                }else {
+                    _this.$message({
+                      type:'error',
+                      message:'用户名或密码错误'
+                    })
+                }
+               // if (res.data.code ===200) {
+                 // localStorage.setItem('token',res.data.token);
+                 // localStorage.setItem('img_url',res.data.profile.avatarUrl);
+                //  this.$router.push('/welcome');
+                //   _this.$message({
+                //     type:'success',
+                //     message:'登陆成功'
+                //   })
+                // }else {
+                //   _this.$message({
+                //     type:'error',
+                //     message:'手机号或密码错误'
+                //   })
+                // }
+              })
+              .catch(err=>{
+                loading.close();
+                console.log(err);
+                this.$message({
+                  type:'error',
+                  message:'网络错误'
+                })
+              });
+
+
+          } else {
+            console.log('提交错误');
+            return false;
+          }
+        });
+
+      },
+
+
+
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      },
+
+    },
+    mounted(){
+      // this.$nextTick(()=>{
+      //   this.$refs.write.focus()
+      // })
+    }
+
+  }
+</script>
+<style>
+    #login label{
+        color: white;
+        cursor: pointer;
+    }
+    #login{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -65%);
+        width: 450px;
+        height: 260px;
+        text-align: center;
+        border-radius: 30px;
+        box-shadow:4px 4px 10px white;
+    }
+    .demo-ruleForm{
+        position: absolute;
+        margin-top: 30px;
+    }
+  .in{
+        width: 275px;
+    }
+  #bgc{
+      height: 100%;
+      width: 100%;
+      background: url("../assets/imgs/BC.jpg");
+      background-size: 100% 100%;
+      -moz-animation: aa  3s .5s  alternate forwards;
+      -webkit-animation: aa  3s .5s  alternate forwards;
+      -o-animation: aa  3s .5s  alternate forwards;
+  }
+    #login:hover{
+        box-shadow:0px 0px 10px 5px black;
+
+        transition: .5s;
+    }
+    .lizi{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+    @import url(https://fonts.googleapis.com/css?family=Lato);
+
+
+
+    .btn {
+        --hue: 190;
+        position: relative;
+        padding: .5rem 1.5rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: white;
+        text-decoration: none;
+        text-transform: uppercase;
+        background-color: hsl(var(--hue), 100%, 41%);
+        border: 1px solid hsl(var(--hue), 100%, 41%);
+        outline: transparent;
+        overflow: hidden;
+        cursor: pointer;
+        user-select: none;
+        white-space: nowrap;
+        transition: 0.25s;
+        border-radius: 5px;
+    }
+
+    .btn:hover {
+        background: hsl(var(--hue), 100%, 31%);
+    }
+
+    .btn-primary {
+        --hue: 187;
+    }
+
+    .btn-ghost {
+        color: hsl(var(--hue), 100%, 41%);
+        background-color: transparent;
+        border-color: hsl(var(--hue), 100%, 41%);
+    }
+
+    .btn:hover {
+        color: white;
+
+    }
+
+    .btn-shine {
+        color: white;
+    }
+    .btn::before {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+                120deg,
+                transparent,
+                hsla(var(--hue), 100%, 41%, 0.5),
+                transparent
+        );
+        transform: translateX(-100%);
+        transition: 0.6s;
+    }
+
+    .btn:hover {
+        background: transparent;
+        box-shadow: 0 0 20px 10px hsla(var(--hue), 100%, 41%, 0.5);
+    }
+
+    .btn:hover::before {
+        transform: translateX(100%);
+    }
+
+    #login:before {
+        content: '';
+        background: url("../assets/imgs/BC.jpg") center center / cover no-repeat fixed;
+        filter: blur(20px);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: -1;
+    }
+
+
+
+
+</style>
