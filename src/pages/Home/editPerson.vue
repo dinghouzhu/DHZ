@@ -9,7 +9,7 @@
                            filterable
                            remote
                            reserve-keyword
-                           placeholder="请输入学员姓名 "
+                           placeholder="目前只支持精确查找 "
                            :remote-method="searchInput">
                     <el-option v-for="item in searchResult"
                                :key="item.username"
@@ -18,29 +18,32 @@
                 </el-select>
             </template>
             <el-button type="success"
-                       @click="dialogVisible=true">添加信息</el-button>
+                       @click="addUserInfo">添加信息</el-button>
             </div>
 
-            <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :rules="stuRules" ref="ruleForm">
-                <el-form :model="stuForm">
+            <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :rules="userRules" ref="ruleForm">
+                <el-form :model="userForm">
 
                     <el-form-item label="用户名" :label-width="formLabelWidth" prop="class">
-                        <el-input  v-model="stuForm.username" autocomplete="off"></el-input>
+                        <el-input  v-model="userForm.username" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="密码" :label-width="formLabelWidth" prop="class">
+                        <el-input  v-model="userForm.password" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="别名" :label-width="formLabelWidth" prop="name">
-                        <el-input v-model="stuForm.nickname" autocomplete="off"></el-input>
+                        <el-input v-model="userForm.nickname" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="描述" :label-width="formLabelWidth" prop="age">
-                        <el-input v-model="stuForm.des" autocomplete="of3f"></el-input>
+                        <el-input v-model="userForm.des" autocomplete="of3f"></el-input>
                     </el-form-item>
                     <el-form-item label="爱好" :label-width="formLabelWidth" prop="city">
-                        <el-input v-model="stuForm.habit" autocomplete="off"></el-input>
+                        <el-input v-model="userForm.habit" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="性别" :label-width="formLabelWidth" prop="degree">
-                        <el-input  v-model="stuForm.sex" autocomplete="off"></el-input>
+                        <el-input  v-model="userForm.sex" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="年龄" :label-width="formLabelWidth" prop="productUrl" >
-                        <el-input v-model="stuForm.age" autocomplete="off"></el-input>
+                        <el-input v-model="userForm.age" autocomplete="off" @keyup.native="UpNumber" maxlength="3"></el-input>
                     </el-form-item>
 
 
@@ -113,43 +116,45 @@
 </template>
 
 <script>
-    import {getUsers,deleteUser,searchUser} from "../../api"
+    import {getUsers,deleteUser,searchUser,addUser} from "../../api"
   export default {
     data(){
       return{
-        dialogVisible:false,
+        dialogVisible:false, //用于定义dialog是否显示
         value:'',
         userList:[],
         level:'',
+        dialogEvents:'', //保存用于触发dialog的事件名
         searchResult:[],
         formLabelWidth: '100px',
         dialogTitle: "",//dialog标题
-        stuRules: {
-          name: [
+        userRules: {
+          username: [
             {required: true, message: '请输入名称', trigger: 'blur'},
           ],
-          class: [
-            {required: true, message: '请输入班级', trigger: 'blur'},
+          password: [
+            {required: true, message: '请输入密码', trigger: 'blur'},
           ],
-          city: [
-            {required: true, message: '请输入城市', trigger: 'blur'},
+          nickname: [
+            {required: true, message: '请输入别名', trigger: 'blur'},
           ],
-          degree: [
-            {required: true, message: '请输入学历', trigger: 'blur'},
-          ],
-          description: [
+          des: [
             {required: true, message: '请输入描述', trigger: 'blur'},
           ],
-          productUrl: [
-            {required: true, message: '请输入作品地址', trigger: 'blur'},
+          habit: [
+            {required: true, message: '请输入爱好', trigger: 'blur'},
           ],
-          avatar: [
-            {required: true, message: '头像', trigger: 'blur'},
+          sex: [
+            {required: true, message: '请输入性别', trigger: 'blur'},
           ],
+          age: [
+            {required: true, message: '请输入年龄', trigger: 'blur'},
+          ]
         },
 
-        stuForm: {
+        userForm: {
           username: '',
+          password:'',
           nickname: '',
           des: '',
           habit: '',
@@ -159,7 +164,57 @@
       }
     },
     methods:{
+      //  只可输入数字
+      UpNumber(e) {
+        e.target.value = e.target.value.replace(/[^\d]/g,"");
+      },
+      //添加用户按钮事件
+      addUserInfo(){
+        this.userForm = {}; //添加的时候先清空列表
+        this.dialogVisible = true;
+        this.dialogEvents = 'addMenu';//更改添加事件名
+        this.dialogTitle = "添加用户信息"
+      },
+       //弹窗确认按钮提交表单数据  根据按钮内容执行不同方法
+      confirmAddstu(forName) {
+        //执行dialogEvents值对应的方法
+        this[this.dialogEvents]();
+        this.dialogVisible = false;
+      },
+
+      //添加用户方法
+      addMenu(){
+        //注意 用户名和密码必填   其他选填
+        var {username,password,nickname}=this.userForm;
+        var _this=this;
+        addUser(username,password,nickname)
+          .then(res=>{
+            console.log(res);
+             if (res.data.code ==200 && res.data.msg =='注册成功'){
+               _this.$message({
+                 type:'success',
+                 message:res.data.msg
+               })
+             }else {
+               _this.$message({
+                 type:'warning',
+                 message:res.data.msg
+               })
+             }
+          })
+          .catch(err=>{
+            _this.$message({
+              type:'error',
+              message:err.data.msg
+            })
+            })
+      },
+
+      
+
+
       searchResultChange(key){
+        //过滤请求到的数据  如果没有  刷新页面
         if (!key) {
           this.getUsers()
         } else {
@@ -167,6 +222,7 @@
         }
       },
 
+      //目前只支持精确查找
       searchInput(key) {
         searchUser(key)
           .then(res => {
@@ -183,9 +239,13 @@
           });
         console.log(key)
       },
+
+      //编辑行数据
       handleEdit(){
         this.dialogVisible=true;
       },
+
+      //删除行数据
       deleteRow(index,row){
         var name=row.username;
         var _this=this;

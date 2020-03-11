@@ -48,7 +48,7 @@
                     <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
                         <el-input v-model="stuForm.name" autocomplete="off"></el-input>
                     </el-form-item>
-                    <el-form-item label="年龄" :label-width="formLabelWidth" prop="age">
+                    <el-form-item label="年龄" :label-width="formLabelWidth" prop="age" >
                         <el-input v-model="stuForm.age" autocomplete="of3f"></el-input>
                     </el-form-item>
                     <el-form-item label="城市" :label-width="formLabelWidth" prop="city">

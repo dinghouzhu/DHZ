@@ -22,7 +22,7 @@ axios.interceptors.response.use(function (config) {
 */
 //定义登陆方法
 export const login=(username,password)=>axios({
-    url:"http://localhost:8080/user/login",
+    url:"/api/user/login",
     method:'post',
     data:{
       username,
@@ -35,7 +35,7 @@ export const login=(username,password)=>axios({
 
 //查询所有用户
 export const getUsers=()=>axios({
-  url:"http://localhost:8080/user/userlist",
+  url:"/api/user/userlist",
   method:'post',
   params:{
 
@@ -45,7 +45,7 @@ export const getUsers=()=>axios({
 
 //查询用户
 export const searchUser=(username)=>axios({
-  url:"http://localhost:8080/user/searchUser",
+  url:"/api/user/searchUser",
   method:'post',
   params:{
     username
@@ -55,7 +55,7 @@ export const searchUser=(username)=>axios({
 
 //删除用户
 export const deleteUser=(username)=>axios({
-  url:"http://localhost:8080/user/deleteUser",
+  url:"/api/user/deleteUser",
   method:'post',
   params:{
     username
@@ -106,7 +106,7 @@ export const getClasses=data=>axios({
 
 //修改密码
 export const resetPassword=(username,oldPassword,newPassword,againPassword)=>axios({
-    url:"http://localhost:8080/user/updatePassword",
+    url:"/api/user/updatePassword",
     method:'post',
     params:{
         username,oldPassword,newPassword,againPassword
@@ -123,17 +123,18 @@ export const resetPassword=(username,oldPassword,newPassword,againPassword)=>axi
 //     timeout: 5000
 // });
 
-// export const addUser=(username,password,nickname)=>axios({
-//     url:"/api/users/register",
-//     params:{
-//         username,password,nickname
-//     },
-//     timeout: 5000
-// });
+export const addUser=(username,password,nickname,des,habit,sex,age)=>axios({
+    url:"/api/user/register",
+    method:'post',
+    params:{
+        username,password,nickname,des,habit,sex,age
+    },
+    timeout: 5000
+});
 
 //获取酒店信息
 export const getHotel=()=>axios({
-  url:"http://localhost:8080/hotel/hotel",
+  url:"/api/hotel/hotel",
   method:'post',
   params:{
 
