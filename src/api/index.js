@@ -1,17 +1,19 @@
 import axios from "axios";
 import da from "element-ui/src/locale/lang/da";
 /*
+//发送请求给每个请求体添加额外请求头
 axios.interceptors.request.use(function (config) {
    if (config.url == "/api/users/login"){
        return config
    }else {
-       let Token =localStorage.getItem("qftoken");
+       let Token =localStorage.getItem("token");
        config.headers['authorization'] = Token;
        return config;
    }
 });
+//过滤响应内容
 axios.interceptors.response.use(function (config) {
-    if (config.config.url !=="api/getloginlog"){
+    if (config.config.url !=="api/getUsers"){
         if (!config.data.state && config.data.msg =="校验失败"){
             location.href="#/login";
             localStorage.removeItem("qftoken")

@@ -93,7 +93,7 @@
                 >
                 </el-table-column>
                 <el-table-column
-                        prop="lev"
+                        prop="level"
                         label="等级" align="center"
                 >
                 </el-table-column>
@@ -185,9 +185,9 @@
       //添加用户方法
       addMenu(){
         //注意 用户名和密码必填   其他选填
-        var {username,password,nickname}=this.userForm;
+        var {username,password,nickname,des,habit,sex,age }=this.userForm;
         var _this=this;
-        addUser(username,password,nickname)
+        addUser(username,password,nickname,des,habit,sex,age)
           .then(res=>{
             console.log(res);
              if (res.data.code ==200 && res.data.msg =='注册成功'){
