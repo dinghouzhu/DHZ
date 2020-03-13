@@ -42,24 +42,24 @@
         <audio ref="music" loop id="palyurl">
             <source :src="NowMusic" type="audio/mpeg" >
         </audio>
-        <el-input
-                placeholder="请输入内容"
-                v-model="MusicName"
-                @keyup.enter.native="change(MusicName)"
-                clearable
-                class="inputBody"
-        >
-        </el-input>
-     <ul  v-if="newList" class="ListBody">
-         <li v-for="item in newList" :key="item.id" @click="handleplay(item.id)" style="margin-top: 10px" class="ListLi">
-             {{item.name}}
-             <hr>
-         </li>
-     </ul>
 
 
 
-
+        <template>
+            <el-select v-model="value"
+                       @change="searchResultChange"
+                       clearable
+                       filterable
+                       remote
+                       reserve-keyword
+                       placeholder="目前只支持精确查找 "
+                       :remote-method="searchInput">
+                <el-option v-for="item in searchResult"
+                           :key="item.username"
+                           :value="item.username">
+                </el-option>
+            </el-select>
+        </template>
 
 
     </div>
@@ -67,10 +67,13 @@
 
 <script>
   import qs from "qs"
-    export default{
+  import {searchUser,searchSongs} from "../../api";
+
+  export default{
         data(){
             return {
-
+                value:'',
+                searchResult:[],
                 newList:null,
                 dataList:['aaa','abc','ccc','cdc','ddd','今日说法','今日预报','你的答案','你的'],
                 MusicName:null,
@@ -82,6 +85,7 @@
                     maxTime:0,
                     volume:40
                 },
+              userList:[],
 
 
 
@@ -95,56 +99,37 @@
         },
 
         methods:{
-            handleplay(item){
-                //this.serSong(item)
-               // var playUrl=document.getElementById('palyurl');
-               // playUrl.src=url
+          searchResultChange(key) {
+            //过滤请求到的数据  如果没有  刷新页面
+            if (!key) {
+               console.log('输入不能为空');
+            } else {
+              this.userList = this.searchResult.filter(item => item.username === key)
+            }
+          },
 
-                this.serSong(item)
-
-            },
+          searchInput(key) {
+            searchSongs(key)
+              .then(res => {
+                if (res.data.code) {
+                  this.searchResult = [];
+                  this.searchResult.push(res.data.data);
+                } else {
+                  this.searchResult = []
+                }
+                console.log(res)
+              })
+              .catch(err => {
+                throw new Error(err)
+              });
+            console.log(key)
+          },
             change(MusicName){
                 this.search(MusicName)
                 // var newList=this.dataList.filter(item=>item.indexOf(this.MusicName)>-1);
                 //  this.newList=newList;
                 // console.log(this.dataList,newList);
             },
-         search(value){
-              console.log(value);
-              var _this=this;
-              this.$http.post('http://127.0.0.1:3000/search',
-                  qs.stringify({
-                      keywords:value
-                  })
-              ).then(function(res) {
-                  _this.newList=res.data.result.songs
-              })
-                  .catch(function(err) {
-                      console.log(err);
-                  });
-                console.log();
-          },
-            serSong(id){
-                var _this=this;
-                this.$http.post('http://127.0.0.1:3000/song/url',
-                    qs.stringify({
-                        id:id
-                    })
-                ).then(function(res) {
-
-                     _this.NowMusic=res.data.data[0].url;
-                     var url=document.getElementById('palyurl')
-                     url.src=  _this.NowMusic
-                    console.log( url.src);
-                  
-                })
-                    .catch(function(err) {
-                        console.log(err);
-                    });
-                console.log();
-            },
-
-
 
             listenMusic(){
                 if(!this.$refs.music){

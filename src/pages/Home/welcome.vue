@@ -34,6 +34,10 @@
                 prop="hdesc"
                 label="酒店描述">
         </el-table-column>
+        <el-table-column
+                prop="hopen"
+                label="开业时间">
+        </el-table-column>
     </el-table>
 
 

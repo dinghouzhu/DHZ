@@ -24,8 +24,8 @@
             <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :rules="userRules" ref="ruleForm">
                 <el-form :model="userForm">
 
-                    <el-form-item label="用户名" :label-width="formLabelWidth" prop="class">
-                        <el-input  v-model="userForm.username" autocomplete="off"></el-input>
+                    <el-form-item label="用户名" :label-width="formLabelWidth" prop="class" >
+                        <el-input  v-model="userForm.username" autocomplete="off" :disabled="disabled"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" :label-width="formLabelWidth" prop="class">
                         <el-input  v-model="userForm.password" autocomplete="off"></el-input>
@@ -45,9 +45,6 @@
                     <el-form-item label="年龄" :label-width="formLabelWidth" prop="productUrl" >
                         <el-input v-model="userForm.age" autocomplete="off" @keyup.native="UpNumber" maxlength="3"></el-input>
                     </el-form-item>
-
-
-
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
@@ -97,6 +94,7 @@
                         label="等级" align="center"
                 >
                 </el-table-column>
+
                 <el-table-column
                         fixed="right"
                         label="操作" align="center"
@@ -116,10 +114,12 @@
 </template>
 
 <script>
-    import {getUsers,deleteUser,searchUser,addUser} from "../../api"
+    import {getUsers,deleteUser,searchUser,addUser,updateUser} from "../../api"
   export default {
     data(){
       return{
+
+        disabled:false,          //是否禁用属性
         dialogVisible:false, //用于定义dialog是否显示
         value:'',
         userList:[],
@@ -163,19 +163,21 @@
         },
       }
     },
-    methods:{
+
+    methods: {
       //  只可输入数字
       UpNumber(e) {
-        e.target.value = e.target.value.replace(/[^\d]/g,"");
+        e.target.value = e.target.value.replace(/[^\d]/g, "");
       },
       //添加用户按钮事件
-      addUserInfo(){
+      addUserInfo() {
         this.userForm = {}; //添加的时候先清空列表
         this.dialogVisible = true;
         this.dialogEvents = 'addMenu';//更改添加事件名
-        this.dialogTitle = "添加用户信息"
+        this.dialogTitle = "添加用户信息";
+        this.disabled=false;
       },
-       //弹窗确认按钮提交表单数据  根据按钮内容执行不同方法
+      //弹窗确认按钮提交表单数据  根据按钮内容执行不同方法
       confirmAddstu(forName) {
         //执行dialogEvents值对应的方法
         this[this.dialogEvents]();
@@ -183,37 +185,35 @@
       },
 
       //添加用户方法
-      addMenu(){
+      addMenu() {
         //注意 用户名和密码必填   其他选填
-        var {username,password,nickname,des,habit,sex,age }=this.userForm;
-        var _this=this;
-        addUser(username,password,nickname,des,habit,sex,age)
-          .then(res=>{
+        var { username, password, nickname, des, habit, sex, age } = this.userForm;
+        var _this = this;
+        addUser(username, password, nickname, des, habit, sex, age)
+          .then(res => {
             console.log(res);
-             if (res.data.code ==200 && res.data.msg =='注册成功'){
-               _this.$message({
-                 type:'success',
-                 message:res.data.msg
-               })
-             }else {
-               _this.$message({
-                 type:'warning',
-                 message:res.data.msg
-               })
-             }
+            if (res.data.code == 200 && res.data.msg == '注册成功') {
+              _this.$message({
+                type: 'success',
+                message: res.data.msg
+              })
+            } else {
+              _this.$message({
+                type: 'warning',
+                message: res.data.msg
+              })
+            }
           })
-          .catch(err=>{
+          .catch(err => {
             _this.$message({
-              type:'error',
-              message:err.data.msg
+              type: 'error',
+              message: err.data.msg
             })
-            })
+          })
       },
 
-      
 
-
-      searchResultChange(key){
+      searchResultChange(key) {
         //过滤请求到的数据  如果没有  刷新页面
         if (!key) {
           this.getUsers()
@@ -241,36 +241,81 @@
       },
 
       //编辑行数据
-      handleEdit(){
-        this.dialogVisible=true;
+      handleEdit(index, row) {
+        var _this = this;
+        if (this.level == 3) {
+          this.dialogVisible = true;
+          this.disabled=true;
+          this.userForm = row;  //打开时展现原信息
+          this.dialogEvents = 'updateUser';//更改添加事件名
+          this.dialogTitle = "修改用户信息"
+        } else {
+          _this.$message({
+            type: 'error',
+            message: '对不起,您的等级不足'
+          })
+        }
+      },
+
+      //更新用户信息方法
+      updateUser() {
+        var _this = this;
+        if (_this.level == 3) {
+          var { username, password, nickname, des, habit, sex, age } = this.userForm;
+          updateUser(username, password, nickname, des, habit, sex, age)
+            .then(res => {
+              console.log(res);
+              if (res.data.code == 200 && res.data.msg == '信息修改成功') {
+                _this.$message({
+                  type: 'success',
+                  message: res.data.msg
+                })
+              } else {
+                _this.$message({
+                  type: 'warning',
+                  message: res.data.msg
+                })
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            })
+
+        } else {
+          _this.$message({
+            type: 'error',
+            message: '对不起,您的等级不足'
+          })
+        }
       },
 
       //删除行数据
-      deleteRow(index,row){
-        var name=row.username;
-        var _this=this;
-        if (_this.level == 3){
+      deleteRow(index, row) {
+        var name = row.username;
+        var _this = this;
+        if (_this.level == 3) {
           deleteUser(name)
-            .then(res=>{
+            .then(res => {
               console.log(res);
               getUsers()
-                .then(res=>{
-                  this.userList=res.data.data.res
+                .then(res => {
+                  this.userList = res.data.data.res
                 })
             })
-            .catch(err=>{
+            .catch(err => {
               console.log(err);
             })
         } else {
           _this.$message({
-            type:'error',
-            message:'对不起,您的等级不足'
+            type: 'error',
+            message: '对不起,您的等级不足'
           })
         }
-
-      },
+      }
     },
+
     created(){
+
       getUsers()
         .then(res=>{
           this.userList=res.data.data.res

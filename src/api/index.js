@@ -134,12 +134,31 @@ export const addUser=(username,password,nickname,des,habit,sex,age)=>axios({
     timeout: 5000
 });
 
+export const updateUser=(username,password,nickname,des,habit,sex,age)=>axios({
+  url:"/api/user/updateUser",
+  method:'post',
+  params:{
+    username,password,nickname,des,habit,sex,age
+  },
+  timeout: 5000
+});
+
 //获取酒店信息
 export const getHotel=()=>axios({
   url:"/api/hotel/hotel",
   method:'post',
   params:{
 
+  },
+  timeout: 3000
+});
+
+//查找歌曲
+export const searchSongs=(keyword)=>axios({
+  url:"http://localhost:3000/search",
+  method:'post',
+  params:{
+    keyword
   },
   timeout: 3000
 });
