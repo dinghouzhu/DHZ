@@ -158,7 +158,7 @@
 </template>
 
 <script>
-    import {getClass,delStu,addstu,editStuInfo,searchStu,getClasses,getStuList} from "@/api"
+    import {getClass,delStu,addstu,editStuInfo,searchStu,getClasses,getStuList} from "../../api"
     export default {
         data() {
             return {

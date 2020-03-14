@@ -169,9 +169,10 @@
               .then(res=>{
                 loading.close();
                 if (res.data.code ===200) {
-                  localStorage.setItem('token',res.data.data.userInfo);
+                 // localStorage.setItem('token',res.data.data.userInfo);
                   localStorage.setItem('level',res.data.data.userInfo.level);
                   localStorage.setItem('nickname',res.data.data.userInfo.nickname);
+                  localStorage.setToken('token',res.data.data.userInfo,1000*60*3);  //设置localstorage三分钟过期
                   this.$router.push('/welcome');
                   _this.$message({
                     type:'success',

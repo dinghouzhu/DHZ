@@ -60,7 +60,12 @@
                 </el-option>
             </el-select>
         </template>
-
+        <template>
+            <Progress :percent="25" :stroke-width="20" text-inside  status="active" />
+            <Progress :percent="45" :stroke-width="20" status="active" text-inside />
+            <Progress :percent="65" :stroke-width="20" status="wrong" text-inside />
+            <Progress :percent="100" :stroke-width="20" text-inside />
+        </template>
 
     </div>
 </template>
