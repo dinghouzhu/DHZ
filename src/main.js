@@ -50,8 +50,8 @@ Storage.prototype.getToken= key =>{
       next()
    }else {
        if (to.path !=="/login"){
-           localStorage.clear();   //如果没有token或者token过期,清除缓存跳转到登录页
-           next({path:'/login'})
+           localStorage.clear();
+           next({path:'/login'})//如果没有token或者token过期,清除缓存跳转到登录页
        }else {
            next()
        }

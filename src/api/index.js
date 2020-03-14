@@ -42,7 +42,7 @@ export const getUsers=()=>axios({
   params:{
 
   },
-  timeout: 3000
+  timeout: 5000
 });
 
 //查询用户
@@ -52,7 +52,7 @@ export const searchUser=(username)=>axios({
   params:{
     username
   },
-  timeout: 3000
+  timeout: 5000
 });
 
 //删除用户
@@ -62,7 +62,7 @@ export const deleteUser=(username)=>axios({
   params:{
     username
   },
-  timeout: 3000
+  timeout: 5000
 });
 
 
@@ -150,15 +150,26 @@ export const getHotel=()=>axios({
   params:{
 
   },
-  timeout: 3000
+  timeout: 5000
+});
+
+
+//获取房间信息
+export const getRooms=()=>axios({
+  url:"/api/room/rooms",
+  method:'post',
+  params:{
+
+  },
+  timeout: 5000
 });
 
 //查找歌曲
 export const searchSongs=(keyword)=>axios({
-  url:"http://localhost:3000/search",
+  url:"http://localhost:5000/search",
   method:'post',
   params:{
     keyword
   },
-  timeout: 3000
+  timeout: 5000
 });

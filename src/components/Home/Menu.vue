@@ -62,6 +62,10 @@
                           <i class="el-icon-s-order"></i>
                           <span slot="title">操作数据</span>
                       </el-menu-item>
+                      <el-menu-item index="/room">
+                          <i class="el-icon-lollipop"></i>
+                          <span slot="title">订单管理</span>
+                      </el-menu-item>
                       <el-menu-item index="/editPerson">
                           <i class="el-icon-user"></i>
                           <span slot="title">用户管理</span>

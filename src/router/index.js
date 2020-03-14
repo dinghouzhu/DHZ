@@ -1,12 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import NotFound from "../components/notFound"
-import welcome from "../pages/Home/welcome";
 import product  from "../pages/Home/product";
 import addPerson from "../pages/Home/addPerson";
 import editPerson from "../pages/Home/editPerson";
 import Cata from "../pages/Home/Catalog";
 import Oneself from "../pages/Home/oneself";
+import Room from "../pages/Home/room"
 Vue.use(VueRouter);
 const routes=[
     {
@@ -20,7 +20,7 @@ const routes=[
         children:[
           {
             path:'/welcome',
-            component:welcome
+            component:() => import('../pages/Home/welcome'),
           },
           {
             path:'/product',
@@ -41,6 +41,10 @@ const routes=[
           {
             path:'/oneself',
             component:Oneself
+          },
+          {
+            path:'/room',
+            component:Room
           },
 
         ]
