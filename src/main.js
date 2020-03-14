@@ -28,7 +28,7 @@ Storage.prototype.setToken=(key, value, expire) =>{
   };
   localStorage.setItem(key,JSON.stringify(obj));//原生方法设置缓存
 };
-//重写localstorage的获取方法，事实上并不是真正意义上的设置时间，而是在获取的时候判断是否过期(大于设置时的时间,如果大于的花钱清除缓存)
+//重写localstorage的获取方法，事实上并不是真正意义上的设置时间，而是在获取的时候判断是否过期(大于设置时的时间,如果大于的话就清除缓存)
 Storage.prototype.getToken= key =>{
   let val =localStorage.getItem(key);//原生方法获取缓存
   if(!val){
@@ -57,7 +57,6 @@ Storage.prototype.getToken= key =>{
        }
    }
 });
-
 
 
 
