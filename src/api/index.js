@@ -55,6 +55,16 @@ export const searchUser=(username)=>axios({
   timeout: 5000
 });
 
+//查询用户  模糊查询
+export const searchUsers=(username)=>axios({
+  url:"/api/user/searchUsers",
+  method:'post',
+  params:{
+    username
+  },
+  timeout: 5000
+});
+
 //删除用户
 export const deleteUser=(username)=>axios({
   url:"/api/user/deleteUser",
@@ -124,7 +134,7 @@ export const resetPassword=(username,oldPassword,newPassword,againPassword)=>axi
 //     },
 //     timeout: 5000
 // });
-
+//注册用户
 export const addUser=(username,password,nickname,des,habit,sex,age)=>axios({
     url:"/api/user/register",
     method:'post',
@@ -134,6 +144,7 @@ export const addUser=(username,password,nickname,des,habit,sex,age)=>axios({
     timeout: 5000
 });
 
+//修改用户信息
 export const updateUser=(username,password,nickname,des,habit,sex,age)=>axios({
   url:"/api/user/updateUser",
   method:'post',

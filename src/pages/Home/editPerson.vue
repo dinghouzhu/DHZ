@@ -9,7 +9,7 @@
                            filterable
                            remote
                            reserve-keyword
-                           placeholder="目前只支持精确查找 "
+                           placeholder="支持模糊查询"
                            :remote-method="searchInput">
                     <el-option v-for="item in searchResult"
                                :key="item.username"
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-    import {getUsers,deleteUser,searchUser,addUser,updateUser} from "../../api"
+    import {getUsers,deleteUser,searchUser,addUser,updateUser,searchUsers} from "../../api"
   export default {
     data(){
       return{
@@ -213,27 +213,42 @@
           })
       },
 
+      getusers(){
+        getUsers()
+          .then(res=>{
+            this.userList=res.data.data.res
+          })
+          .catch(err=>{
+            console.log(err);
+          })
+      },
 
       searchResultChange(key) {
         //过滤请求到的数据  如果没有  刷新页面
         if (!key) {
-          this.getUsers()
+          this.getusers()
         } else {
-          this.userList = this.searchResult.filter(item => item.username === key)
+          this.userList = this.searchResult.filter(item => item.username === key);
+         // console.log(this.userList);
         }
       },
 
       //目前只支持精确查找
       searchInput(key) {
-        searchUser(key)
+        searchUsers(key)
           .then(res => {
             if (res.data.code) {
               this.searchResult = [];
-              this.searchResult.push(res.data.data);
+              var _this=this;
+              res.data.data.result.forEach(function(item,index) {
+                _this.searchResult.push(item);
+              });
+
+             // console.log( this.searchResult,'searchResult');
             } else {
               this.searchResult = []
             }
-            console.log(res)
+          //  console.log(res.data.data)
           })
           .catch(err => {
             throw new Error(err)
@@ -258,7 +273,7 @@
         }
       },
 
-      //更新用户信息方法
+      //修改用户信息方法
       updateUser() {
         var _this = this;
         if (_this.level == 3) {
@@ -316,14 +331,8 @@
     },
 
     created(){
+      this.getusers();
 
-      getUsers()
-        .then(res=>{
-          this.userList=res.data.data.res
-        })
-        .catch(err=>{
-          console.log(err);
-        })
     },
     mounted(){
       this.level=localStorage.getItem('level');

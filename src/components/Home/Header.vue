@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div >
+        <div class="header">
         <el-row type="flex" class="row-bg" justify="space-between">
             <el-col :span="6">
                 <div class="grid-content icon-collapase">
@@ -10,6 +11,7 @@
             <el-col :span="6"><div class="grid-content userinfo" @click="rev">
                登出</div></el-col>
         </el-row>
+        </div>
     </div>
 </template>
 

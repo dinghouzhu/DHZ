@@ -12,7 +12,7 @@
         </el-table-column>
         <el-table-column
                 prop="rtype"
-                label="型号"
+                label="类型"
                 >
         </el-table-column>
         <el-table-column
@@ -40,7 +40,7 @@
         >
             <template slot-scope="scope">
                 <el-button type="success" icon="el-icon-key" circle
-                           @click="handleEdit(scope.index, scope.row)"></el-button>
+                           @click="handleEdit(scope.index,scope.row)"></el-button>
             </template>
         </el-table-column>
     </el-table>
