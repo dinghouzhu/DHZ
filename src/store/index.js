@@ -9,7 +9,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
        menu_collapse:false,
-       nickname:localStorage.getItem('nickname')||""
+       nickname:localStorage.getItem('nickname')||"",
+       content:'',
   },
   mutations: {
       changeMenuStatus(state){
@@ -17,10 +18,15 @@ export default new Vuex.Store({
       },
       SET_NICKNAME(state,payload){
           state.nickname=payload;
-      }
+      },
+    SET_CONTENT(state,payload){
+      state.content=payload;
+    },
 
   },
-  actions: {},
+  actions: {
+
+  },
   modules: {}
 
 });

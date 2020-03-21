@@ -172,11 +172,20 @@
       },
       //添加用户按钮事件
       addUserInfo() {
-        this.userForm = {}; //添加的时候先清空列表
-        this.dialogVisible = true;
-        this.dialogEvents = 'addMenu';//更改添加事件名
-        this.dialogTitle = "添加用户信息";
-        this.disabled=false;
+        let _this=this;
+        if (this.level == 3) {
+          this.userForm = {}; //添加的时候先清空列表
+          this.dialogVisible = true;
+          this.dialogEvents = 'addMenu';//更改添加事件名
+          this.dialogTitle = "添加用户信息";
+          this.disabled = false;
+        }else {
+          _this.$message({
+            type: 'error',
+            message: '对不起,您的等级不足'
+          })
+
+        }
       },
       //弹窗确认按钮提交表单数据  根据按钮内容执行不同方法
       confirmAddstu(forName) {
@@ -213,6 +222,7 @@
           })
       },
 
+      //更新列表
       getusers(){
         getUsers()
           .then(res=>{
@@ -222,6 +232,7 @@
             console.log(err);
           })
       },
+
 
       searchResultChange(key) {
         //过滤请求到的数据  如果没有  刷新页面
@@ -233,8 +244,9 @@
         }
       },
 
-      //目前只支持精确查找
+      //模糊查询 支持精确查找
       searchInput(key) {
+        //精确查找searchUser()
         searchUsers(key)
           .then(res => {
             if (res.data.code) {
@@ -243,7 +255,6 @@
               res.data.data.result.forEach(function(item,index) {
                 _this.searchResult.push(item);
               });
-
              // console.log( this.searchResult,'searchResult');
             } else {
               this.searchResult = []
@@ -258,7 +269,7 @@
 
       //编辑行数据
       handleEdit(index, row) {
-        var _this = this;
+        let _this = this;
         if (this.level == 3) {
           this.dialogVisible = true;
           this.disabled=true;
@@ -278,7 +289,8 @@
         var _this = this;
         if (_this.level == 3) {
           var { username, password, nickname, des, habit, sex, age } = this.userForm;
-          updateUser(username, password, nickname, des, habit, sex, age)
+          let token=localStorage.getItem('token');
+          updateUser(username, password, nickname, des, habit, sex, age,token)
             .then(res => {
               console.log(res);
               if (res.data.code == 200 && res.data.msg == '信息修改成功') {

@@ -19,7 +19,7 @@
                       class="lizi"></vue-particles>
 
        <div id="login"  >
-           <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" class="headimg"></el-avatar>
+           <el-avatar src="https://p4.music.126.net/V9tibxqfdJk-BXdyQLn-MQ==/109951163452834453.jpg" class="headimg"></el-avatar>
            <el-form :model="ruleForm" status-icon :rules="rules" ref="loginForm" label-width="100px" class="demo-ruleForm">
                <el-form-item class="lab" label="用户名" prop="username">
                    <el-input class="in" type="text" v-model="ruleForm.username" autocomplete="off" ref="write"></el-input>
@@ -30,7 +30,7 @@
 
                <el-form-item>
                    <el-button  @click="submitForm('loginForm')" id="btn1" class="btn btn-primary btn-ghost btn-shine" style="margin-right: 15px">登陆</el-button>
-                   <el-button @click="dialogFormVisible=true" id="btn2" class="btn btn-primary btn-ghost btn-shine" style="margin-left: 15px">重置</el-button>
+                   <el-button id="btn2" class="btn btn-primary btn-ghost btn-shine" style="margin-left: 15px">重置</el-button>
                </el-form-item>
            </el-form>
 
@@ -103,7 +103,6 @@
         }
       };
       return{
-        msg:'MyVue',
         personImg:'',
         dialogVisible:false,
         dialogFormVisible:false,
@@ -172,7 +171,9 @@
                  // localStorage.setItem('token',res.data.data.userInfo);
                   localStorage.setItem('level',res.data.data.userInfo.level);
                   localStorage.setItem('nickname',res.data.data.userInfo.nickname);
-                  localStorage.setToken('token',res.data.data.userInfo,1000*60*20);  //设置localstorage三分钟过期
+                  localStorage.setItem('token',res.data.data.userInfo.token);       //真实获取的token
+                //  localStorage.setToken('token',res.data.data.userInfo,1000*60*20); //模拟token 设置token20分钟过期
+                  console.log(res.data.data);
                   this.$router.push('/welcome');
                   _this.$message({
                     type:'success',
@@ -258,7 +259,7 @@
   #bgc{
       height: 100%;
       width: 100%;
-      background: url("../assets/imgs/BC.jpg");
+      background: url("../../assets/imgs/BC.jpg");
       background-size: 100% 100%;
       -moz-animation: aa  3s .5s  alternate forwards;
       -webkit-animation: aa  3s .5s  alternate forwards;
@@ -348,7 +349,7 @@
 
     #login:before {
         content: '';
-        background: url("../assets/imgs/BC.jpg") center center / cover no-repeat fixed;
+        background: url("../../assets/imgs/BC.jpg") center center / cover no-repeat fixed;
         filter: blur(20px);
         position: absolute;
         top: 0;

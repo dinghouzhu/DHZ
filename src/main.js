@@ -20,6 +20,7 @@ Vue.prototype.$http = axios;  //将axios请求继承到vue原型上
 FastClick.attach(document.body); //解决移动端点击问题
 
 //重写localstorage的设置方法,增添时间
+/*
 Storage.prototype.setToken=(key, value, expire) =>{
   let obj={
     data:value,
@@ -43,9 +44,9 @@ Storage.prototype.getToken= key =>{
   return val.data;
 };
 
-
+*/
  router.beforeEach(function (to,from,next) {
-   let token=localStorage.getToken("token")||"";
+   let token=localStorage.getItem("token")||"";
    if (token){
       next()
    }else {

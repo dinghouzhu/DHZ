@@ -30,13 +30,30 @@
 
          >
         </el-table-column>
-        <el-table-column
-                prop="hdesc"
-                label="酒店描述">
-        </el-table-column>
+
         <el-table-column
                 prop="hopen"
                 label="开业时间">
+            <template slot-scope="scope">
+                <i class="el-icon-time"></i>
+                <span style="margin-left: 10px">{{ scope.row.hopen }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column prop="evaValue" label="评分">
+            <template slot-scope="scope" >
+                <!-- <el-rate v-model="scope.row.evaValue" :allow-half="true"  disabled show-score text-color="#ff9900" score-template="{value}"></el-rate> -->
+                <el-rate v-model="scope.row.lev" :allow-half="true"  disabled text-color="#ff9900"></el-rate>
+            </template>
+        </el-table-column>
+
+        <el-table-column
+                label="查看详情"
+        >
+        <template slot-scope="scope">
+            <el-button type="success" icon="el-icon-c-scale-to-original
+" circle
+                       @click="handleEdit(scope.index, scope.row)"></el-button>
+        </template>
         </el-table-column>
     </el-table>
 
@@ -52,10 +69,16 @@
     export default {
         data() {
             return {
-                Hotels:[]
+                Hotels:[],
+
+
             }
         },
       methods:{
+        handleEdit(index,item){
+          console.log(index,item);
+          this.$router.push("/welcome/details")
+        }
 
       },
       created() {

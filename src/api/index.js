@@ -145,11 +145,11 @@ export const addUser=(username,password,nickname,des,habit,sex,age)=>axios({
 });
 
 //修改用户信息
-export const updateUser=(username,password,nickname,des,habit,sex,age)=>axios({
+export const updateUser=(username,password,nickname,des,habit,sex,age,token)=>axios({
   url:"/api/user/updateUser",
   method:'post',
   params:{
-    username,password,nickname,des,habit,sex,age
+    username,password,nickname,des,habit,sex,age,token
   },
   timeout: 5000
 });

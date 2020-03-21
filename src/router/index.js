@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import NotFound from "../components/notFound"
+import NotFound from "../components/Home/notFound"
 import product  from "../pages/Home/product";
 import addPerson from "../pages/Home/addPerson";
 import editPerson from "../pages/Home/editPerson";
@@ -11,8 +11,12 @@ Vue.use(VueRouter);
 const routes=[
     {
         path:'/login',
-        component: () => import('../components/Login'),
+        component: () => import('../components/Home/Login'),
     },
+  {
+    path:'/details',
+    component: () => import('../components/babel/details'),
+  },
     {
         path:'/',
         component:() => import('../pages/Home/index'),
@@ -45,6 +49,14 @@ const routes=[
           {
             path:'/room',
             component:Room
+          },
+          {
+            path:'/welcome/details',
+            component: () => import('../components/babel/details'),
+          },
+          {
+            path:'/welcome/order',
+            component: () => import('../components/babel/order'),
           },
 
         ]

@@ -64,7 +64,7 @@
                       </el-menu-item>
                       <el-menu-item index="/room">
                           <i class="el-icon-lollipop"></i>
-                          <span slot="title">订单管理</span>
+                          <span slot="title">房间管理</span>
                       </el-menu-item>
                       <el-menu-item index="/editPerson">
                           <i class="el-icon-user"></i>
@@ -77,7 +77,7 @@
 
                   </el-submenu>
                   <el-menu-item index="/cata" disabled>
-                      <i class="el-icon-ship"></i>
+                      <i class="el-icon-lock"></i>
                       <span slot="title">主页测试(未开放)</span>
                   </el-menu-item>
                   <el-menu-item index="/oneself" >
