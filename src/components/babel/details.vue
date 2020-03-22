@@ -11,8 +11,18 @@
   export default {
     data() {
       return {
-        value: 2.7
+        value: 2.7,
+        val:''
       }
+    },
+    methods(){
+
+    },
+    created(){
+      this.val=this.route.params.val;
+    },
+    mounted(){
+      console.log(this.val);
     }
   }
 </script>

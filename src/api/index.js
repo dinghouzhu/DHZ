@@ -3,7 +3,7 @@ import da from "element-ui/src/locale/lang/da";
 /*
 //发送请求给每个请求体添加额外请求头
 axios.interceptors.request.use(function (config) {
-   if (config.url == "/api/users/login"){
+   if (config.url == "/api/user/login"){
        return config
    }else {
        let Token =localStorage.getItem("token");
@@ -11,6 +11,8 @@ axios.interceptors.request.use(function (config) {
        return config;
    }
 });
+*/
+/*
 //过滤响应内容
 axios.interceptors.response.use(function (config) {
     if (config.config.url !=="api/getUsers"){
@@ -22,6 +24,54 @@ axios.interceptors.response.use(function (config) {
     return config
 });
 */
+
+
+
+//获取登入日志
+export const getLoginLog=()=>axios({
+    url:"/api/getloginlog",
+});
+export const getClass=()=>axios({
+    url:"/api/students/getstulist",
+});
+export const delStu=(sId,token)=>axios({
+    url:"/api/students/delstu",
+    method:'get',
+    params:{
+        sId,
+        token
+    }
+});
+//添加数据
+export const addstu=(data)=>axios({
+    url:"/api/students/addstu",
+    method:'post',
+    data:data,
+});
+//更新数据
+export const editStuInfo=data=>axios({
+    url:"/api/students/updatestu",
+    method:'post',
+    data
+});
+//查找数据
+export const searchStu=params=>axios({
+    url:"/api/students/searchstu",
+    params
+});
+
+//班级列表
+export const getClasses=data=>axios({
+       url:"/api/students/getclasses",
+       method:'get',
+       data
+    });
+
+
+
+
+
+
 //定义登陆方法
 export const login=(username,password)=>axios({
     url:"/api/user/login",
@@ -75,47 +125,6 @@ export const deleteUser=(username)=>axios({
   timeout: 5000
 });
 
-
-//获取登入日志
-export const getLoginLog=()=>axios({
-    url:"/api/getloginlog",
-});
-export const getClass=()=>axios({
-    url:"/api/students/getstulist",
-});
-export const delStu=(sId,token)=>axios({
-    url:"/api/students/delstu",
-    method:'get',
-    params:{
-        sId,
-        token
-    }
-});
-//添加数据
-export const addstu=(data)=>axios({
-    url:"/api/students/addstu",
-    method:'post',
-    data:data,
-});
-//更新数据
-export const editStuInfo=data=>axios({
-    url:"/api/students/updatestu",
-    method:'post',
-    data
-});
-//查找数据
-export const searchStu=params=>axios({
-    url:"/api/students/searchstu",
-    params
-});
-
-//班级列表
-export const getClasses=data=>axios({
-       url:"/api/students/getclasses",
-       method:'get',
-       data
-    });
-
 //修改密码
 export const resetPassword=(username,oldPassword,newPassword,againPassword)=>axios({
     url:"/api/user/updatePassword",
@@ -124,16 +133,7 @@ export const resetPassword=(username,oldPassword,newPassword,againPassword)=>axi
         username,oldPassword,newPassword,againPassword
     }
 });
-//获取学员信息
-// export const getStuList=(count=10 ,page=1, Class)=>axios({
-//     url:"/api/students/getstulist",
-//     params:{
-//         count,
-//         page,
-//         class:Class
-//     },
-//     timeout: 5000
-// });
+
 //注册用户
 export const addUser=(username,password,nickname,des,habit,sex,age)=>axios({
     url:"/api/user/register",

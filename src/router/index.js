@@ -10,51 +10,58 @@ import Room from "../pages/Home/room"
 Vue.use(VueRouter);
 const routes=[
     {
+        name:'login',
         path:'/login',
         component: () => import('../components/Home/Login'),
     },
-  {
-    path:'/details',
-    component: () => import('../components/babel/details'),
-  },
+
     {
         path:'/',
         component:() => import('../pages/Home/index'),
         redirect:'/welcome',
         children:[
           {
+            name:'welcome',
             path:'/welcome',
             component:() => import('../pages/Home/welcome'),
           },
           {
+            name:'product',
             path:'/product',
             component:product
           },
           {
+            name:'addPerson',
             path:'/addPerson',
             component:addPerson
           },
           {
+            name:'editPerson',
             path:'/editPerson',
             component:editPerson
           },
           {
+            name:'cata',
             path:'/cata',
             component:Cata
           },
           {
+            name:'oneself',
             path:'/oneself',
             component:Oneself
           },
           {
+            name:'room',
             path:'/room',
             component:Room
           },
           {
+            name:'details',
             path:'/welcome/details',
             component: () => import('../components/babel/details'),
           },
           {
+            name:'order',
             path:'/welcome/order',
             component: () => import('../components/babel/order'),
           },

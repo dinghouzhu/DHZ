@@ -292,13 +292,19 @@
           let token=localStorage.getItem('token');
           updateUser(username, password, nickname, des, habit, sex, age,token)
             .then(res => {
-              console.log(res);
               if (res.data.code == 200 && res.data.msg == '信息修改成功') {
                 _this.$message({
                   type: 'success',
                   message: res.data.msg
                 })
-              } else {
+              } else if (res.data.code == -2) {
+                _this.$message({
+                  type: 'warning',
+                  message: res.data.msg
+                });
+                localStorage.clear();
+                _this.$router.push('/')
+              }else {
                 _this.$message({
                   type: 'warning',
                   message: res.data.msg
