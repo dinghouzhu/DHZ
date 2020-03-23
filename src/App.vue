@@ -18,6 +18,10 @@
     methods: {
 
     },
+    beforeCreate(){
+
+      
+    },
     mounted(){
       // 刷新页面清除缓存
       // window.onbeforeunload = function (e) {

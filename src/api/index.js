@@ -116,11 +116,11 @@ export const searchUsers=(username)=>axios({
 });
 
 //删除用户
-export const deleteUser=(username)=>axios({
+export const deleteUser=(username,token)=>axios({
   url:"/api/user/deleteUser",
   method:'post',
   params:{
-    username
+    username,token
   },
   timeout: 5000
 });

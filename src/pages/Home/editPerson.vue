@@ -203,6 +203,7 @@
           .then(res => {
             console.log(res);
             if (res.data.code == 200 && res.data.msg == '注册成功') {
+              _this.getusers();
               _this.$message({
                 type: 'success',
                 message: res.data.msg
@@ -328,9 +329,21 @@
         var name = row.username;
         var _this = this;
         if (_this.level == 3) {
-          deleteUser(name)
+          var token=localStorage.getItem("token");
+          deleteUser(name,token)
             .then(res => {
               console.log(res);
+              if (res.data.code ==200){
+                _this.$message({
+                  type:'success',
+                  message:res.data.msg
+                });
+              }else {
+                _this.$message({
+                  type:'warning',
+                  message:res.data.msg
+                });
+              }
               getUsers()
                 .then(res => {
                   this.userList = res.data.data.res
@@ -350,7 +363,6 @@
 
     created(){
       this.getusers();
-
     },
     mounted(){
       this.level=localStorage.getItem('level');

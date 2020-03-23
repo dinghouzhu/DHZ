@@ -77,7 +77,7 @@
       methods:{
         handleEdit(index,item){
           console.log(index,item);
-          this.$router.push({name:"/details",params:{val:"111"}})
+          this.$router.push('/welcome/details')
 
         }
 
