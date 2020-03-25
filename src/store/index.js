@@ -11,6 +11,7 @@ export default new Vuex.Store({
        menu_collapse:false,
        nickname:localStorage.getItem('nickname')||"",
        content:'',
+       token:localStorage.getItem('token')||"",
   },
   mutations: {
       changeMenuStatus(state){
@@ -19,12 +20,15 @@ export default new Vuex.Store({
       SET_NICKNAME(state,payload){
           state.nickname=payload;
       },
-    SET_CONTENT(state,payload){
+      SET_CONTENT(state,payload){
       state.content=payload;
     },
 
   },
   actions: {
+
+  },
+  getters:{
 
   },
   modules: {}

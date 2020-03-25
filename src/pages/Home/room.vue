@@ -1,4 +1,5 @@
 <template>
+    <div>
     <el-table
             :data="tableData"
             style="width: 100%"
@@ -44,6 +45,39 @@
             </template>
         </el-table-column>
     </el-table>
+    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible"  ref="ruleForm">
+        <el-form :model="roomForm">
+
+            <el-form-item label="编号" :label-width="formLabelWidth" prop="class" >
+                <el-input  v-model="roomForm.rid" autocomplete="off" ></el-input>
+            </el-form-item>
+            <el-form-item label="类型" :label-width="formLabelWidth" prop="class">
+                <el-input  v-model="roomForm.rtype" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="早餐级别" :label-width="formLabelWidth" prop="name">
+                <el-input v-model="roomForm.rbreakfast" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="价格" :label-width="formLabelWidth" prop="age">
+                <el-input v-model="roomForm.rprice" autocomplete="of3f"></el-input>
+            </el-form-item>
+            <el-form-item label="账户点数" :label-width="formLabelWidth" prop="city">
+                <el-input v-model="roomForm.raccount" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="用户名称" :label-width="formLabelWidth" prop="city">
+                <el-input v-model="roomForm.username" autocomplete="off"></el-input>
+            </el-form-item>
+
+
+
+
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="confirmAddstu('ruleForm')">确 定</el-button>
+        </div>
+
+    </el-dialog>
+    </div>
 </template>
 
 <script>
@@ -51,17 +85,30 @@
   export default {
     data() {
       return {
-        tableData: []
+        tableData: [],
+        dialogVisible:false,
+        formLabelWidth: '100px',
+        dialogTitle: "",//dialog标题
+        roomForm: {
+          rid: '',
+          rtype:'',
+          rbreakfast: '',
+          rprice: '',
+          raccount: '',
+          username:''
+        },
+        token: this.$store.state.token
+
       }
     },
     methods: {
-      formatter(row, column) {
-        return row.address;
-      },
+
       handleEdit(index,row){
-        console.log(index,row);
-        
+        this.dialogVisible=true;
+        this.roomForm=row
       },
+
+      //获取房间信息
       getRoom(){
         getRooms()
           .then(res=>{
@@ -70,12 +117,18 @@
           .catch(err=>{
              console.log(err);
           })
+      },
+      //提交订单的方法
+      confirmAddstu(){
+        console.log('提交订单',this.roomForm);
+        this.dialogVisible=false;
       }
 
 
     },
     created(){
       this.getRoom();
+      console.log(this.token);
     },
   }
 </script>

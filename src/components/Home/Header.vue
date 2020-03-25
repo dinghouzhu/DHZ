@@ -29,7 +29,7 @@
        methods:{
            ...mapMutations(['changeMenuStatus']),
            rev(){
-               localStorage.clear()
+               localStorage.clear();
                this.$router.push("/login");
                this.$message({
                    message:'登出成功',
@@ -56,6 +56,11 @@
         opacity: .8;
         font-size: 18px;
     }
-
+ .grid-content.title{
+     width: 200px;
+     overflow: hidden;
+     text-overflow:ellipsis;
+     white-space: nowrap;
+ }
 
 </style>

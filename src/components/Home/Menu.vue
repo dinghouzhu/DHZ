@@ -58,10 +58,10 @@
                           <i class="el-icon-location"></i>
                           <span>管理中心</span>
                       </template>
-                      <el-menu-item index="/product">
-                          <i class="el-icon-s-order"></i>
-                          <span slot="title">操作数据</span>
-                      </el-menu-item>
+                      <!--<el-menu-item index="/product">-->
+                          <!--<i class="el-icon-s-order"></i>-->
+                          <!--<span slot="title">操作数据</span>-->
+                      <!--</el-menu-item>-->
                       <el-menu-item index="/room">
                           <i class="el-icon-lollipop"></i>
                           <span slot="title">房间管理</span>

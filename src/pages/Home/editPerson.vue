@@ -162,6 +162,7 @@
           sex: '',
           age: '',
         },
+        token:this.$store.state.token
       }
     },
 
@@ -290,8 +291,7 @@
         var _this = this;
         if (_this.level == 3) {
           var { username, password, nickname, des, habit, sex, age } = this.userForm;
-          let token=localStorage.getItem('token');
-          updateUser(username, password, nickname, des, habit, sex, age,token)
+          updateUser(username, password, nickname, des, habit, sex, age,_this.token)
             .then(res => {
               if (res.data.code == 200 && res.data.msg == '信息修改成功') {
                 _this.$message({
@@ -329,20 +329,26 @@
         var name = row.username;
         var _this = this;
         if (_this.level == 3) {
-          var token=localStorage.getItem("token");
-          deleteUser(name,token)
+          deleteUser(name,_this.token)
             .then(res => {
               console.log(res);
-              if (res.data.code ==200){
+              if (res.data.code ==200 && res.data.msg == '删除用户操作成功'){
                 _this.$message({
                   type:'success',
                   message:res.data.msg
                 });
+              }else if (res.data.code == -2) {
+                _this.$message({
+                  type: 'warning',
+                  message: res.data.msg
+                });
+                localStorage.clear();
+                _this.$router.push('/')
               }else {
                 _this.$message({
-                  type:'warning',
-                  message:res.data.msg
-                });
+                  type: 'warning',
+                  message: res.data.msg
+                })
               }
               getUsers()
                 .then(res => {

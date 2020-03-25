@@ -177,7 +177,7 @@ export const getRooms=()=>axios({
 
 //查找歌曲
 export const searchSongs=(keyword)=>axios({
-  url:"http://localhost:5000/search",
+  url:"http://localhost:3000/search",
   method:'post',
   params:{
     keyword
