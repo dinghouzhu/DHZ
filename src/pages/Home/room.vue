@@ -47,21 +47,20 @@
     </el-table>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible"  ref="ruleForm">
         <el-form :model="roomForm">
-
             <el-form-item label="编号" :label-width="formLabelWidth" prop="class" >
-                <el-input  v-model="roomForm.rid" autocomplete="off" ></el-input>
+                <el-input  v-model="roomForm.rid" autocomplete="off" :disabled="disabled"></el-input>
             </el-form-item>
             <el-form-item label="类型" :label-width="formLabelWidth" prop="class">
-                <el-input  v-model="roomForm.rtype" autocomplete="off"></el-input>
+                <el-input  v-model="roomForm.rtype" autocomplete="off" :disabled="disabled"></el-input>
             </el-form-item>
             <el-form-item label="早餐级别" :label-width="formLabelWidth" prop="name">
-                <el-input v-model="roomForm.rbreakfast" autocomplete="off"></el-input>
+                <el-input v-model="roomForm.rbreakfast" autocomplete="off" :disabled="disabled"></el-input>
             </el-form-item>
             <el-form-item label="价格" :label-width="formLabelWidth" prop="age">
-                <el-input v-model="roomForm.rprice" autocomplete="of3f"></el-input>
+                <el-input v-model="roomForm.rprice" autocomplete="of3f" :disabled="disabled"></el-input>
             </el-form-item>
             <el-form-item label="账户点数" :label-width="formLabelWidth" prop="city">
-                <el-input v-model="roomForm.raccount" autocomplete="off"></el-input>
+                <el-input v-model="roomForm.raccount" autocomplete="off" :disabled="disabled"></el-input>
             </el-form-item>
             <el-form-item label="用户名称" :label-width="formLabelWidth" prop="city">
                 <el-input v-model="roomForm.username" autocomplete="off"></el-input>
@@ -81,10 +80,11 @@
 </template>
 
 <script>
-    import {getRooms} from "../../api"
+    import {getRooms,updateOrders} from "../../api"
   export default {
     data() {
       return {
+        disabled:true,
         tableData: [],
         dialogVisible:false,
         formLabelWidth: '100px',
@@ -97,15 +97,14 @@
           raccount: '',
           username:''
         },
-        token: this.$store.state.token
-
       }
     },
     methods: {
-
+     //编辑订单
       handleEdit(index,row){
         this.dialogVisible=true;
-        this.roomForm=row
+        this.roomForm.username='';
+        this.roomForm=row;
       },
 
       //获取房间信息
@@ -120,15 +119,46 @@
       },
       //提交订单的方法
       confirmAddstu(){
-        console.log('提交订单',this.roomForm);
+        var _this=this;
         this.dialogVisible=false;
+        let nowDate=new Date().format("yyyy-MM-dd hh:mm:ss");
+        var {username,rid,rtype,rprice,rbreakfast}=this.roomForm;
+        //username,roomid,type,price,breakfast ,date,token
+        var token=localStorage.getItem('token');
+        updateOrders(username,rid,rtype,rprice,rbreakfast,nowDate,token)
+          .then(res=>{
+            console.log(res);
+            if (res.data.code == 200 ){
+              _this.$message({
+                type:'success',
+                message:res.data.msg
+              })
+            }else if (res.data.code == -2){
+              _this.$message({
+                type:'warning',
+                message:res.data.msg
+              });
+              localStorage.clear();
+              _this.$router.push('/')
+            }else {
+              _this.$message({
+                type:'warning',
+                message:res.data.msg
+              })
+            }
+          })
+          .catch(err=>{
+            console.log(err);
+            _this.$message({
+              type:'warning',
+              message:err.data.msg
+            })
+          })
       }
-
-
     },
+
     created(){
       this.getRoom();
-      console.log(this.token);
     },
   }
 </script>

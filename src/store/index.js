@@ -8,6 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+       disabled:true,
        menu_collapse:false,
        nickname:localStorage.getItem('nickname')||"",
        content:'',
@@ -15,14 +16,13 @@ export default new Vuex.Store({
   },
   mutations: {
       changeMenuStatus(state){
-          state.menu_collapse=!state.menu_collapse
+          state.menu_collapse=!state.menu_collapse;
       },
-      SET_NICKNAME(state,payload){
-          state.nickname=payload;
-      },
-      SET_CONTENT(state,payload){
-      state.content=payload;
-    },
+    changeMenuDisabled(state,payload){
+        state.disabled = !state.disabled;
+      console.log(state.disabled);
+    }
+
 
   },
   actions: {

@@ -5,13 +5,13 @@
             <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="旧密码" prop="oldPassword">
-            <el-input type="text" v-model="ruleForm.oldPassword" autocomplete="off"></el-input>
+            <el-input type="password" v-model="ruleForm.oldPassword" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="newPassword">
-            <el-input v-model="ruleForm.newPassword"  type="text"></el-input>
+            <el-input v-model="ruleForm.newPassword"  type="password"></el-input>
         </el-form-item>
         <el-form-item label="确认新密码" prop="againPassword">
-            <el-input v-model="ruleForm.againPassword"  type="text"></el-input>
+            <el-input v-model="ruleForm.againPassword"  type="password"></el-input>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="resetPass">提交</el-button>
@@ -64,12 +64,16 @@
                  var that=this;
                 resetPassword(username,oldPassword,newPassword,againPassword)
                     .then(res=>{
-                      console.log(res.data.code);
-                      if (res.data.code === 200 ) {
+                      if (res.data.code === 200  ) {
                         that.$message({
                           type:'success',
-                          message:res.data.msg
-                        })
+                          message:res.data.msg+',请重新登录'
+                        });
+                        localStorage.clear();
+                        setTimeout(() => {
+                          //修改成功退出页面重新登录
+                          that.$router.push('/')
+                        }, 500);
                       }else {
                         that.$message({
                           type:'error',

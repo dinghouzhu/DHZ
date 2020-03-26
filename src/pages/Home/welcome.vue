@@ -50,9 +50,9 @@
                 label="查看详情"
         >
         <template slot-scope="scope">
-            <el-button type="success" icon="el-icon-c-scale-to-original
-" circle
+            <el-button type="success" icon="el-icon-c-scale-to-original" circle
                        @click="handleEdit(scope.index, scope.row)"></el-button>
+
         </template>
         </el-table-column>
     </el-table>
@@ -66,20 +66,18 @@
 
 <script>
     import {getHotel} from "@/api";
+
     export default {
         data() {
             return {
                 Hotels:[],
-
-
             }
         },
       methods:{
+
         handleEdit(index,item){
-          console.log(index,item);
           this.$router.push('/welcome/details');
           localStorage.setItem("table", JSON.stringify(item))
-
         }
 
       },

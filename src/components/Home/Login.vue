@@ -118,22 +118,7 @@
           username: '',
           password: '',
         },
-        menuList:[
-          {  id:'1',
-            url:'',
-            children:{
-              id:'11',
-              url:''
-            }
 
-          },
-
-          {
-            id:'2',
-            url:'',
-          }
-
-        ],
         rules: {
           username: [
             { validator: validateUsn, trigger: 'blur' }
@@ -173,7 +158,6 @@
                   localStorage.setItem('nickname',res.data.data.userInfo.nickname);
                   localStorage.setItem('token',res.data.data.userInfo.token);       //真实获取的token
                 //  localStorage.setToken('token',res.data.data.userInfo,1000*60*20); //模拟token 设置token20分钟过期
-                  console.log(res.data.data);
                   this.$router.push('/welcome');
                   _this.$message({
                     type:'success',

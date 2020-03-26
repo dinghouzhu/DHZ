@@ -74,7 +74,6 @@
                           <i class="el-icon-edit"></i>
                           <span slot="title">修改密码</span>
                       </el-menu-item>
-
                   </el-submenu>
                   <el-menu-item index="/cata" disabled>
                       <i class="el-icon-lock"></i>

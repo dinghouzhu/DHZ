@@ -162,7 +162,7 @@
           sex: '',
           age: '',
         },
-        token:this.$store.state.token
+
       }
     },
 
@@ -200,7 +200,8 @@
         //注意 用户名和密码必填   其他选填
         var { username, password, nickname, des, habit, sex, age } = this.userForm;
         var _this = this;
-        addUser(username, password, nickname, des, habit, sex, age)
+        var  token=localStorage.getItem('token');
+        addUser(username, password, nickname, des, habit, sex, age,token)
           .then(res => {
             console.log(res);
             if (res.data.code == 200 && res.data.msg == '注册成功') {
@@ -289,9 +290,10 @@
       //修改用户信息方法
       updateUser() {
         var _this = this;
+        var token= localStorage.getItem('token');
         if (_this.level == 3) {
           var { username, password, nickname, des, habit, sex, age } = this.userForm;
-          updateUser(username, password, nickname, des, habit, sex, age,_this.token)
+          updateUser(username, password, nickname, des, habit, sex, age,token)
             .then(res => {
               if (res.data.code == 200 && res.data.msg == '信息修改成功') {
                 _this.$message({
@@ -328,8 +330,9 @@
       deleteRow(index, row) {
         var name = row.username;
         var _this = this;
+        var token= localStorage.getItem('token');
         if (_this.level == 3) {
-          deleteUser(name,_this.token)
+          deleteUser(name,token)
             .then(res => {
               console.log(res);
               if (res.data.code ==200 && res.data.msg == '删除用户操作成功'){

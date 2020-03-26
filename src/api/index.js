@@ -1,5 +1,6 @@
 import axios from "axios";
 import da from "element-ui/src/locale/lang/da";
+
 /*
 //发送请求给每个请求体添加额外请求头
 axios.interceptors.request.use(function (config) {
@@ -81,9 +82,7 @@ export const login=(username,password)=>axios({
       password
     },
     timeout:5000,
-  }
-);
-
+  });
 
 //查询所有用户
 export const getUsers=()=>axios({
@@ -119,7 +118,7 @@ export const searchUsers=(username)=>axios({
 export const deleteUser=(username,token)=>axios({
   url:"/api/user/deleteUser",
   method:'post',
-  params:{
+  data:{
     username,token
   },
   timeout: 5000
@@ -129,17 +128,17 @@ export const deleteUser=(username,token)=>axios({
 export const resetPassword=(username,oldPassword,newPassword,againPassword)=>axios({
     url:"/api/user/updatePassword",
     method:'post',
-    params:{
+    data:{
         username,oldPassword,newPassword,againPassword
     }
 });
 
 //注册用户
-export const addUser=(username,password,nickname,des,habit,sex,age)=>axios({
+export const addUser=(username,password,nickname,des,habit,sex,age,token)=>axios({
     url:"/api/user/register",
     method:'post',
-    params:{
-        username,password,nickname,des,habit,sex,age
+    data:{
+        username,password,nickname,des,habit,sex,age,token
     },
     timeout: 5000
 });
@@ -148,10 +147,11 @@ export const addUser=(username,password,nickname,des,habit,sex,age)=>axios({
 export const updateUser=(username,password,nickname,des,habit,sex,age,token)=>axios({
   url:"/api/user/updateUser",
   method:'post',
-  params:{
+  data:{
     username,password,nickname,des,habit,sex,age,token
   },
-  timeout: 5000
+  timeout: 5000,
+
 });
 
 //获取酒店信息
@@ -164,13 +164,22 @@ export const getHotel=()=>axios({
   timeout: 5000
 });
 
-
 //获取房间信息
 export const getRooms=()=>axios({
   url:"/api/room/rooms",
   method:'post',
   params:{
 
+  },
+  timeout: 5000
+});
+
+//插入新订单
+export const updateOrders=(username,roomid,type,price,breakfast ,date,token)=>axios({
+  url:"/api/order/insert",
+  method:'post',
+  data:{
+    username,roomid,type,price,breakfast ,date,token
   },
   timeout: 5000
 });
