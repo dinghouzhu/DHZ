@@ -8,6 +8,12 @@ import Cata from "../pages/Home/Catalog";
 import Oneself from "../pages/Home/oneself";
 import Room from "../pages/Home/room"
 Vue.use(VueRouter);
+// 重写路由的push方法
+//  * 解决，相同路由跳转时，报错
+const routerPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error => error)
+};
 const routes=[
     {
         name:'login',

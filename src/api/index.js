@@ -193,3 +193,13 @@ export const searchSongs=(keyword)=>axios({
   },
   timeout: 5000
 });
+
+//间隔验证token
+export const getAgain=(token)=>axios({
+  url:"/api/user/again",
+  method:'post',
+  data:{
+     token
+  },
+  timeout: 5000
+});

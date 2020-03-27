@@ -64,7 +64,7 @@ Date.prototype.format = function(fmt) {
     }
   }
   return fmt;
-}
+};
 
  router.beforeEach(function (to,from,next) {
    let token=localStorage.getItem("token")||"";
