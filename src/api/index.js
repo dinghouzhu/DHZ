@@ -134,11 +134,11 @@ export const resetPassword=(username,oldPassword,newPassword,againPassword)=>axi
 });
 
 //注册用户
-export const addUser=(username,password,nickname,des,habit,sex,age,token)=>axios({
+export const addUser=(username,password,nickname,des,habit,sex,age,IP,token)=>axios({
     url:"/api/user/register",
     method:'post',
     data:{
-        username,password,nickname,des,habit,sex,age,token
+        username,password,nickname,des,habit,sex,age,IP,token
     },
     timeout: 5000
 });
@@ -184,12 +184,22 @@ export const updateOrders=(username,roomid,type,price,breakfast ,date,token)=>ax
   timeout: 5000
 });
 
-//查找歌曲
-export const searchSongs=(keyword)=>axios({
+//搜索歌曲
+export const searchSongs=(keywords)=>axios({
   url:"http://localhost:3000/search",
   method:'post',
   params:{
-    keyword
+    keywords
+  },
+  timeout: 5000
+});
+
+//根据歌曲id获取URL
+export const searchSong=(id)=>axios({
+  url:"http://localhost:3000/song/url",
+  method:'post',
+  params:{
+    id
   },
   timeout: 5000
 });

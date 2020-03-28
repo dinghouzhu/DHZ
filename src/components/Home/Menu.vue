@@ -79,9 +79,9 @@
                       <i class="el-icon-lock"></i>
                       <span slot="title">主页测试(未开放)</span>
                   </el-menu-item>
-                  <el-menu-item index="/oneself" >
+                  <el-menu-item index="/oneself" disabled>
                       <i class="el-icon-service"></i>
-                      <span slot="title">音乐页</span>
+                      <span slot="title">音乐页测试(未开放)</span>
                   </el-menu-item>
 
               </el-menu>

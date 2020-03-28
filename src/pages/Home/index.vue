@@ -13,6 +13,9 @@
          <Header></Header>
 
             </el-header>
+            <el-footer>
+                <Music></Music>
+            </el-footer>
             <el-main>
                 <router-view></router-view>
             </el-main>
@@ -23,14 +26,18 @@
 <script>
     import Menu from "../../components/Home/Menu"
     import Header from "../../components/Home/Header";
+    import Music from "./oneself"
     export default {
        components:{
            Menu,
-           Header
+           Header,
+         Music
        }
     }
 </script>
 
 <style>
-
+.el-footer{
+ background: #e9eef3;
+}
 </style>

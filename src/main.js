@@ -11,6 +11,8 @@ import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
 import VueParticles from 'vue-particles'
 import axios from "axios"
+import echarts from 'echarts';
+Vue.prototype.$echarts = echarts;
 
 Vue.use(ViewUI);
 Vue.use(ElementUI);

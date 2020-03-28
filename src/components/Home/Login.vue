@@ -103,6 +103,7 @@
         }
       };
       return{
+        ip:'',
         personImg:'',
         dialogVisible:false,
         dialogFormVisible:false,
@@ -134,8 +135,19 @@
 
 
     methods:{
+      //利用访问搜狐的方式获取IP
+      ready(){
+        //获取本地IP地址
+        //js 引入 <!-- 获取本机ip  -->
+        //<script src="http://pv.sohu.com/cityjson?ie=utf-8">
+        var cip = returnCitySN["cip"];
+        //给vuedata对象里的字段赋值
+        this.ip = cip;
+        console.log(this.ip);
+        localStorage.setItem('IP',this.ip)
+      },
 
-
+     //提交表单
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -162,27 +174,14 @@
                   _this.$message({
                     type:'success',
                     message:'登陆成功'
-                  })
+                  });
+                  this.ready()  //获取IP
                 }else {
                     _this.$message({
                       type:'error',
                       message:'用户名或密码错误'
                     })
                 }
-               // if (res.data.code ===200) {
-                 // localStorage.setItem('token',res.data.token);
-                 // localStorage.setItem('img_url',res.data.profile.avatarUrl);
-                //  this.$router.push('/welcome');
-                //   _this.$message({
-                //     type:'success',
-                //     message:'登陆成功'
-                //   })
-                // }else {
-                //   _this.$message({
-                //     type:'error',
-                //     message:'手机号或密码错误'
-                //   })
-                // }
               })
               .catch(err=>{
                 loading.close();
@@ -192,8 +191,6 @@
                   message:'网络错误'
                 })
               });
-
-
           } else {
             console.log('提交错误');
             return false;
@@ -209,10 +206,13 @@
       },
 
     },
-    mounted(){
+
+    created(){
+
       // this.$nextTick(()=>{
       //   this.$refs.write.focus()
       // })
+
     }
 
   }

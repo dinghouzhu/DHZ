@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div class="music">
+        <div class="musicBody">
         <el-row>
             <el-col :span="4">
                 <el-popover
@@ -39,12 +40,12 @@
                 {{formatTime(music.currentTime)}}/{{formatTime(music.maxTime)}}
             </el-col>
         </el-row>
-        <audio ref="music" loop id="palyurl">
-            <source :src="NowMusic" type="audio/mpeg" >
+        <audio ref="music"  id="palyurl">
+            <source :src="NowMusic " type="audio/mpeg" >
         </audio>
+        </div>
 
-
-
+      <div class="search">
         <template>
             <el-select v-model="value"
                        @change="searchResultChange"
@@ -52,27 +53,22 @@
                        filterable
                        remote
                        reserve-keyword
-                       placeholder="目前只支持精确查找 "
+                       placeholder="请输入歌曲名称... "
                        :remote-method="searchInput">
                 <el-option v-for="item in searchResult"
-                           :key="item.username"
-                           :value="item.username">
+                           :key="item.id"
+                           :value="item.name"
+                >
                 </el-option>
             </el-select>
         </template>
-        <template>
-            <Progress :percent="20" :stroke-width="20" text-inside  status="active" />
-            <Progress :percent="45.5" :stroke-width="20" status="active" text-inside />
-            <Progress :percent="65" :stroke-width="20" status="wrong" text-inside />
-            <Progress :percent="100" :stroke-width="20" text-inside />
-        </template>
-
+      </div>
     </div>
 </template>
 
 <script>
   import qs from "qs"
-  import {searchUser,searchSongs} from "../../api";
+  import {searchUser,searchSongs,searchSong} from "../../api";
 
   export default{
         data(){
@@ -80,7 +76,6 @@
                 value:'',
                 searchResult:[],
                 newList:null,
-                dataList:['aaa','abc','ccc','cdc','ddd','今日说法','今日预报','你的答案','你的'],
                 MusicName:null,
                 musicList:[],
                 NowMusic:require('../../assets/img/Masque_Jupiter - 亡灵序曲（纯钢琴）.mp3'),
@@ -92,42 +87,56 @@
                 },
               userList:[],
 
-
-
             }
         },
         mounted(){
             this.$nextTick(()=>{
                 setInterval(this.listenMusic,1000)
             })
-
         },
 
         methods:{
           searchResultChange(key) {
             //过滤请求到的数据  如果没有  刷新页面
+            var _this=this;
             if (!key) {
                console.log('输入不能为空');
             } else {
-              this.userList = this.searchResult.filter(item => item.username === key)
+              console.log(key);
+              this.userList = this.searchResult.filter(item => item.name === key);
+              let songId=this.userList[0].id;
+              searchSong(songId)
+                .then(res=>{
+                  _this.$refs.music.src =res.data.data[0].url;
+                  _this.play();
+                })
+                .catch(err=>{
+                  console.log(err);
+                })
             }
           },
 
           searchInput(key) {
-            searchSongs(key)
-              .then(res => {
-                if (res.data.code) {
-                  this.searchResult = [];
-                  this.searchResult.push(res.data.data);
-                } else {
-                  this.searchResult = []
-                }
-                console.log(res)
-              })
-              .catch(err => {
-                throw new Error(err)
-              });
-            console.log(key)
+            var _this=this;
+            setTimeout((()=>{
+              searchSongs(key)
+                .then(res => {
+                  if (res.data.code) {
+                    _this.searchResult = [];
+                    _this.searchResult=res.data.result.songs;
+                  } else {
+                    _this.searchResult = []
+                  }
+                })
+                .catch(err => {
+                  throw new Error(err)
+                });
+            }),1200);
+
+
+
+
+
           },
             change(MusicName){
                 this.search(MusicName)
@@ -208,6 +217,28 @@
     }
     .inputBody{
         width: 250px;
+    }
+    .music{
+
+        /*position: absolute;*/
+        /*bottom:0;*/
+        /*left: 50%;*/
+        /*transform: translateX(-50%);*/
+        /*z-index: 10;*/
+        background: white;
+
+    }
+    .music:hover{
+        transition: .5s;
+        opacity: 1;
+    }
+
+    .musicBody{
+        float: left;
+        width: 800px;
+    }
+    .search{
+        float: left;
     }
 
 </style>

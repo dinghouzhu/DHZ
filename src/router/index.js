@@ -30,6 +30,9 @@ const routes=[
             name:'welcome',
             path:'/welcome',
             component:() => import('../pages/Home/welcome'),
+            meta:{
+              keepAlive:true
+            }
           },
           {
             name:'product',
@@ -59,7 +62,10 @@ const routes=[
           {
             name:'room',
             path:'/room',
-            component:Room
+            component:Room,
+            meta:{
+              keepAlive:true
+            }
           },
           {
             name:'details',

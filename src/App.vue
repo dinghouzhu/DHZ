@@ -1,6 +1,8 @@
 <template>
   <div id="app">
+
       <router-view></router-view>
+
   </div>
 </template>
 
@@ -29,6 +31,7 @@
       //   var storage = window.localStorage;
       //   storage.clear()
       // }
+      //周期性请求token是否过期
       if (this.timer){
         clearInterval(this.timer)
       }else {
@@ -43,13 +46,12 @@
                 console.log(res.data.msg);
                 localStorage.clear();
                 _this.$router.push('/');
-                clearInterval(_this.timer)
               }
             })
             .catch(err=>{
               console.log(err);
             })
-        },60000)
+        },120000)
       }
 
     }

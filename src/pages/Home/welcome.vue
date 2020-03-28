@@ -81,6 +81,9 @@
         }
 
       },
+      computed:{
+
+      },
       created() {
         getHotel()
               .then(res=>{

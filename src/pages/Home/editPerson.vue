@@ -198,10 +198,11 @@
       //添加用户方法
       addMenu() {
         //注意 用户名和密码必填   其他选填
-        var { username, password, nickname, des, habit, sex, age } = this.userForm;
+        var { username, password, nickname, des, habit, sex, age} = this.userForm;
         var _this = this;
         var  token=localStorage.getItem('token');
-        addUser(username, password, nickname, des, habit, sex, age,token)
+        var IP=localStorage.getItem('IP');
+        addUser(username, password, nickname, des, habit, sex, age,IP,token)
           .then(res => {
             console.log(res);
             if (res.data.code == 200 && res.data.msg == '注册成功') {

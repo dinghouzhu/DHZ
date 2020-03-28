@@ -1,7 +1,7 @@
 <template>
-
+<div>
  <mailTable  :tableData="tableData" :tableStyle="{ width:'600px' }"></mailTable>
-
+</div>
 </template>
 
 <script>
@@ -38,5 +38,4 @@
 
 <style scoped>
 
-    　
 </style>
