@@ -186,7 +186,7 @@ export const updateOrders=(username,roomid,type,price,breakfast ,date,token)=>ax
 
 //搜索歌曲
 export const searchSongs=(keywords)=>axios({
-  url:"http://localhost:3000/search",
+  url:"http://106.12.176.212:3000/search",
   method:'post',
   params:{
     keywords
@@ -196,7 +196,7 @@ export const searchSongs=(keywords)=>axios({
 
 //根据歌曲id获取URL
 export const searchSong=(id)=>axios({
-  url:"http://localhost:3000/song/url",
+  url:"http://106.12.176.212:3000/song/url",
   method:'post',
   params:{
     id
@@ -211,5 +211,38 @@ export const getAgain=(token)=>axios({
   data:{
      token
   },
+  timeout: 5000
+});
+
+//登录日志
+export const loginLog=(username,nickname,date,IP)=>axios({
+  url:"/api/user/loginLog",
+  method:'post',
+  data:{
+    username,nickname,date,IP
+  }
+});
+
+
+//世界新冠疫情各国疫情
+export const getXinguan=()=>axios({
+  url:"https://api.inews.qq.com/newsqa/v1/automation/foreign/country/ranklist",
+  method:'post',
+  timeout: 5000
+});
+
+//https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=FAutoGlobalStatis,FAutoContinentStatis,FAutoGlobalDailyList,FAutoCountryWeekCompRank,FAutoCountryConfirmAdd
+//世界新冠疫情总览
+export const getMsg=()=>axios({
+  url:"https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=FAutoGlobalStatis,FAutoContinentStatis,FAutoGlobalDailyList,FAutoCountryWeekCompRank,FAutoCountryConfirmAdd",
+  method:'post',
+  timeout: 5000
+});
+
+//https://mat1.gtimg.com/news/feiyanarea/hubei.json
+//湖北疫情
+export const getHubei=()=>axios({
+  url:"https://mat1.gtimg.com/news/feiyanarea/hubei.json",
+  method:'post',
   timeout: 5000
 });

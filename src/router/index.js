@@ -19,12 +19,16 @@ const routes=[
         name:'login',
         path:'/login',
         component: () => import('../components/Home/Login'),
+      meta:{
+        keepAlive:true
+      }
     },
 
     {
         path:'/',
         component:() => import('../pages/Home/index'),
         redirect:'/welcome',
+
         children:[
           {
             name:'welcome',
@@ -69,7 +73,7 @@ const routes=[
           },
           {
             name:'details',
-            path:'/welcome/details',
+            path:'/details',
             component: () => import('../components/babel/details'),
           },
           {

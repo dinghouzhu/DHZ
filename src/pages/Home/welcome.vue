@@ -57,7 +57,11 @@
         </el-table-column>
     </el-table>
 
-
+        <el-drawer
+                title="酒店详情"
+                :visible.sync="drawer"
+                :with-header="false">
+        </el-drawer>
 
 
     </div>
@@ -68,16 +72,19 @@
     import {getHotel} from "@/api";
 
     export default {
+      name:'welcome',
         data() {
             return {
                 Hotels:[],
+                drawer: false,
             }
         },
       methods:{
 
         handleEdit(index,item){
-          this.$router.push('/welcome/details');
-          localStorage.setItem("table", JSON.stringify(item))
+          this.drawer=true;
+          //  this.$router.push('/welcome/details');
+          // localStorage.setItem("table", JSON.stringify(item))
         }
 
       },

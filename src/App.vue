@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-
-      <router-view></router-view>
+<keep-alive :include="include">
+      <router-view ></router-view>
+</keep-alive>
 
   </div>
 </template>
@@ -11,7 +12,7 @@
   export default {
     data () {
       return {
-
+        include:['welcome','room']
       };
     },
 
@@ -51,7 +52,7 @@
             .catch(err=>{
               console.log(err);
             })
-        },120000)
+        },60000)
       }
 
     }

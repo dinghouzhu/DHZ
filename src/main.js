@@ -13,7 +13,6 @@ import VueParticles from 'vue-particles'
 import axios from "axios"
 import echarts from 'echarts';
 Vue.prototype.$echarts = echarts;
-
 Vue.use(ViewUI);
 Vue.use(ElementUI);
 Vue.use(VueParticles);   //登录页的粒子效果

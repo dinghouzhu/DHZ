@@ -65,11 +65,8 @@
             <el-form-item label="用户名称" :label-width="formLabelWidth" prop="city">
                 <el-input v-model="roomForm.username" autocomplete="off"></el-input>
             </el-form-item>
-
-
-
-
         </el-form>
+
         <div slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">取 消</el-button>
             <el-button type="primary" @click="confirmAddstu('ruleForm')">确 定</el-button>
@@ -82,6 +79,7 @@
 <script>
     import {getRooms,updateOrders} from "../../api"
   export default {
+    name:'room',
     data() {
       return {
         disabled:true,

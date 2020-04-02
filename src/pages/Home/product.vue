@@ -235,9 +235,7 @@
                         this.logss = res.data.data
                     })
             },
-            //没有用的方法
-            search() {
-            },
+
             chooseClasses(key) {
                 if (key === "all") {
                     this.upDateList()

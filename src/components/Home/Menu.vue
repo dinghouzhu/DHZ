@@ -1,3 +1,4 @@
+
 <template>
   <div class="menu">
       <el-row >
@@ -75,6 +76,10 @@
                           <span slot="title">修改密码</span>
                       </el-menu-item>
                   </el-submenu>
+                  <el-menu-item index="/details" >
+                      <i class="el-icon-s-opportunity"></i>
+                      <span slot="title">疫情防控</span>
+                  </el-menu-item>
                   <el-menu-item index="/cata" disabled>
                       <i class="el-icon-lock"></i>
                       <span slot="title">主页测试(未开放)</span>
@@ -85,9 +90,8 @@
                   </el-menu-item>
 
               </el-menu>
+
           </el-col>
-
-
       </el-row>
   </div>
 </template>

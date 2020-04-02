@@ -79,8 +79,7 @@
 
 
 <script>
-  import {login} from "@/api";
-  import qs from 'qs';
+  import {login,loginLog} from "@/api";
   export default {
 
     data(){
@@ -137,7 +136,7 @@
     methods:{
       //利用访问搜狐的方式获取IP
       ready(){
-        //获取本地IP地址
+        //获取本地IP地址  原理就是访问搜狐网站获取IP
         //js 引入 <!-- 获取本机ip  -->
         //<script src="http://pv.sohu.com/cityjson?ie=utf-8">
         var cip = returnCitySN["cip"];
@@ -145,6 +144,7 @@
         this.ip = cip;
         console.log(this.ip);
         localStorage.setItem('IP',this.ip)
+        return cip
       },
 
      //提交表单
@@ -175,7 +175,16 @@
                     type:'success',
                     message:'登陆成功'
                   });
-                  this.ready()  //获取IP
+                  let nickname=res.data.data.userInfo.nickname;
+                  let IP=this.ready();  //获取IP
+                  let date=new Date().format("yyyy-MM-dd hh:mm:ss");
+                  loginLog(username,nickname,date,IP)
+                    .then(res=>{
+                      console.log(res);
+                    })
+                    .catch(err=>{
+                      console.log(err);
+                    })
                 }else {
                     _this.$message({
                       type:'error',
