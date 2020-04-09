@@ -1,23 +1,29 @@
 <template>
     <div >
         <div class="header">
-        <el-row type="flex" class="row-bg" justify="space-between">
-            <el-col :span="6">
-                <div class="grid-content icon-collapase">
-                <i class="el-icon-s-flag" @click="changeMenuStatus"></i>
-            </div>
-            </el-col>
-            <el-col :span="6"><div class="grid-content title">欢迎你：{{nickname}}</div></el-col>
-            <el-col :span="6"><div class="grid-content userinfo" @click="rev">
-               登出</div></el-col>
-        </el-row>
+            <Menu></Menu>
+        <!--<el-row type="flex" class="row-bg" justify="space-between">-->
+            <!--<el-col :span="6">-->
+                <!--<div class="grid-content icon-collapase">-->
+                <!--<i class="el-icon-s-flag" @click="changeMenuStatus"></i>-->
+            <!--</div>-->
+            <!--</el-col>-->
+            <!--<el-col :span="6"><div class="grid-content title">欢迎你：{{nickname}}</div></el-col>-->
+            <!--<el-col :span="6"><div class="grid-content userinfo" @click="rev">-->
+               <!--登出</div></el-col>-->
+
+
         </div>
     </div>
 </template>
 
 <script>
+    import Menu from '../Home/Menu'
     import {mapMutations} from "vuex"
     export default {
+      components:{
+        Menu
+      },
       data(){
         return {
           nickname:''
@@ -27,7 +33,6 @@
         this.nickname=localStorage.getItem('nickname')
       },
        methods:{
-           ...mapMutations(['changeMenuStatus']),
            rev(){
                localStorage.clear();
                this.$router.push("/login");
@@ -47,11 +52,17 @@
     cursor: pointer;
     color: red;
 }
+    .el-submenu__title:hover{
+        background-color: #42ABF9 !important;
+    }
+    .el-menu-item:hover{
+        background-color: #42ABF9 !important;
+    }
     .userinfo {
         cursor: pointer;
     }
     .row-bg,.el-header {
-        background:#545c64;
+        background-color:#1e9fff;
         color: white;
         opacity: .8;
         font-size: 18px;

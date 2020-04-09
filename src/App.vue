@@ -12,7 +12,8 @@
   export default {
     data () {
       return {
-        include:['welcome','room']
+        include:['welcome','room'],
+        nowTime:null,
       };
     },
 
@@ -21,10 +22,10 @@
     },
     methods: {
 
-    },
+  },
     beforeCreate(){
 
-      
+
     },
     mounted(){
 
@@ -60,5 +61,15 @@
 
   };
 </script>
+<style>
 
+    /*html{*/
+        /*filter: grayscale(100%);*/
+        /*-webkit-filter: grayscale(100%);*/
+        /*-moz-filter: grayscale(100%);*/
+        /*-ms-filter: grayscale(100%);*/
+        /*-o-filter: grayscale(100%);*/
+        /*filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);*/
+    /*}*/
+</style>
 

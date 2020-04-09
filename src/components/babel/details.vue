@@ -11,6 +11,9 @@
         <el-carousel-item style="height:400px">
             <div style="width:800px;height:400px" ref="chartYuan" class="Mychart"></div>
         </el-carousel-item>
+        <el-carousel-item style="height:400px">
+            <div style="width:800px;height:400px" ref="chartChina" class="Mychart"></div>
+        </el-carousel-item>
     </el-carousel>
 
     <div class="content">
@@ -22,13 +25,13 @@
         <li style="background: #f3f6f8;color: #626d77">死亡</li>
         <li>疫情</li>
    </ul>
-   <ul v-for="(item,index) in list" :key="index" v-if="index <20" >
+   <ul v-for="(item,index) in list" :key="item.name"  >
       <li>{{item.name}}</li>
       <li>{{item.confirmAdd}}</li>
       <li>{{item.confirm}}</li>
       <li>{{item.heal}}</li>
       <li>{{item.dead}}</li>
-      <li style="color: blue"  @click="toggle(item)">详情</li>
+      <li style="color: blue;cursor: pointer"  @click="toggle(item)">详情</li>
    </ul>
         <el-dialog :title="dialogTitle" :visible.sync="dialogVisible"  ref="ruleForm">
             <el-form :model="conForm">
@@ -44,12 +47,27 @@
                 <el-form-item label="新增确诊" :label-width="formLabelWidth" prop="age">
                     <el-input v-model="conForm.confirmAdd" autocomplete="of3f" :disabled="disabled"></el-input>
                 </el-form-item>
-                <el-form-item label="confirmAddCut" :label-width="formLabelWidth" prop="city">
-                    <el-input v-model="conForm.confirmAddCut" autocomplete="off" :disabled="disabled"></el-input>
-                </el-form-item>
                 <el-form-item label="确诊" :label-width="formLabelWidth" prop="city">
                     <el-input v-model="conForm.confirm" autocomplete="off" :disabled="disabled"></el-input>
                 </el-form-item>
+                <el-form-item label="suspect" :label-width="formLabelWidth" prop="city">
+                    <el-input v-model="conForm.suspect" autocomplete="off" :disabled="disabled"></el-input>
+                </el-form-item>
+                <el-form-item label="死亡" :label-width="formLabelWidth" prop="city" >
+                    <el-input v-model="conForm.dead" autocomplete="off" :disabled="disabled" ></el-input>
+                </el-form-item>
+                <el-form-item label="死亡比较" :label-width="formLabelWidth" prop="city">
+                    <el-input v-model="conForm.deadCompare" autocomplete="off" :disabled="disabled"></el-input>
+                </el-form-item>
+
+                <el-form-item label="治愈" :label-width="formLabelWidth" prop="city">
+                    <el-input v-model="conForm.heal" autocomplete="off" :disabled="disabled"></el-input>
+                </el-form-item>
+                <el-form-item label="治愈比较" :label-width="formLabelWidth" prop="city">
+                    <el-input v-model="conForm.healCompare" autocomplete="off" :disabled="disabled"></el-input>
+                </el-form-item>
+
+
             </el-form>
 
             <div slot="footer" class="dialog-footer">
@@ -63,6 +81,7 @@
 </template>
 
 <script>
+  import '../../../node_modules/echarts/map/js/china.js' // 引入中国地图数据
  import {getXinguan,getMsg,getHubei} from "../../api";
     export default {
       data(){
@@ -70,7 +89,7 @@
         disabled:true,
         formLabelWidth:'100px',
         dialogVisible:false,//弹框显示标记
-        dialogTitle:'', //弹框标题
+        dialogTitle:'部分数据未确认', //弹框标题
         showMissionList:false,
         FAutoGlobalDailyList:[], //世界疫情总体列表
         list:[],  //国家列表
@@ -173,22 +192,89 @@
             }
 
         },  //饼图配置
+        optionChina:{ // 进行相关配置
+          backgroundColor: "#02AFDB",
+          tooltip: {}, // 鼠标移到图里面的浮动提示框
+          dataRange: {
+            show: false,
+            min: 0,
+            max: 1000,
+            text: ['High', 'Low'],
+            realtime: true,
+            calculable: true,
+            color: ['orangered', 'yellow', 'lightskyblue']
+          },
+          geo: { // 这个是重点配置区
+            map: 'china', // 表示中国地图
+            roam: true,
+            label: {
+              normal: {
+                show: true, // 是否显示对应地名
+                textStyle: {
+                  color: 'rgba(0,0,0,0.4)'
+                }
+              }
+            },
+            itemStyle: {
+              normal: {
+                borderColor: 'rgba(0, 0, 0, 0.2)'
+              },
+              emphasis: {
+                areaColor: null,
+                shadowOffsetX: 0,
+                shadowOffsetY: 0,
+                shadowBlur: 20,
+                borderWidth: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          },
+          series: [{
+            type: 'scatter',
+            coordinateSystem: 'geo' // 对应上方配置
+          },
+            {
+              name: '测试数据', // 浮动框的标题
+              type: 'map',
+              geoIndex: 0,
+              data: [{
+                "name": "北京",
+                "value": 599
+              }, {
+                "name": "上海",
+                "value": 142
+              }, {
+                "name": "黑龙江",
+                "value": 44
+              }, {
+                "name": "深圳",
+                "value": 92
+              }, {
+                "name": "湖北",
+                "value": 810
+              }, {
+                "name": "四川",
+                "value": 453
+              }]
+            }
+          ]
+        },//中国地图配置
         conForm:{
-          name: "美国",
-          continent: "北美洲",
-          date: "04.02",
+          name: '',
+          continent: '',
+          date: '',
           isUpdated: false,
-          confirmAdd: 26679,
-          confirmAddCut: 0,
-          confirm: 216768,
-          suspect: 0,
-          dead: 5148,
-          heal: 8710,
-          nowConfirm: 202910,
-          confirmCompare: 26679,
-          nowConfirmCompare: 24064,
-          healCompare: 1569,
-          deadCompare: 1046,
+          confirmAdd: '',
+          confirmAddCut: '',
+          confirm: '',
+          suspect: '',
+          dead: '',
+          heal: '',
+          nowConfirm: '',
+          confirmCompare: '',
+          nowConfirmCompare: '',
+          healCompare: '',
+          deadCompare: '',
         }    //国家疫情详情实例
       }
     },
@@ -201,7 +287,8 @@
       mounted(){
          this.initCharts();
          this.init();
-         this.initYuan()
+         this.initYuan();
+         this.initChina();
       },
       methods:{
         toggle(item){
@@ -209,6 +296,12 @@
           this.conForm='';
           this.dialogVisible=true;
           this.conForm=item;
+        },
+        //绘制中国地图
+        initChina(){
+          let myChart4 = this.$echarts.init(this.$refs.chartChina);
+          // 绘制图表
+          myChart4.setOption( this.optionChina);
         },
         //绘制柱状图
         initCharts () {
@@ -245,7 +338,7 @@
               console.log(res.data.data);
               res.data.data.FAutoCountryWeekCompRank.map((item,index)=>{
                 _this.topList.push(item.nation);
-                _this.topPeopleList.push(item.day);
+                _this.topPeopleList.push(item.day7);
               });
               _this.option.series.data=_this.topPeopleList;
               _this.option.xAxis.data=_this.topList;
@@ -324,6 +417,24 @@
               }
             } else {
               this.initYuan();
+            }
+          },
+          deep: true //深度监听
+        },
+
+        optionChina: {
+          handler(newVal, oldVal) {
+            if (this.myChart4) {
+              console.log(this.myChart4);
+              if (newVal) {
+                console.log(newVal);
+                this.myChart4.setOption(newVal);
+              } else {
+                console.log(oldVal);
+                this.myChart4.setOption(oldVal);
+              }
+            } else {
+              this.initChina();
             }
           },
           deep: true //深度监听

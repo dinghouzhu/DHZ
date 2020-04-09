@@ -1,34 +1,35 @@
 <template>
-    <div class="home">
-        <el-container>
-<!--            菜单-->
-        <el-aside width="">
-      <Menu></Menu>
 
-        </el-aside>
         <el-container>
-
             <el-header>
-<!--               顶栏 -->
          <Header></Header>
-
             </el-header>
+            <el-footer>
+            <Tag></Tag>
+            </el-footer>
             <el-footer>
                 <Music></Music>
             </el-footer>
             <el-main>
                 <router-view></router-view>
             </el-main>
-        </el-container>
-    </el-container></div>
+
+
+
+    </el-container>
+
 </template>
 
 <script>
-    import Menu from "../../components/Home/Menu"
+    import Menu from "../../components/Home/Menu";
     import Header from "../../components/Home/Header";
-    import Music from "./oneself"
+    import Music from "./oneself";
+    import Tag from "../../components/Home/Tags"
+
+
     export default {
        components:{
+         Tag,
            Menu,
            Header,
          Music
@@ -37,7 +38,12 @@
 </script>
 
 <style>
+
 .el-footer{
- background: #e9eef3;
+    width: 100%;
+    background: #e9eef3;
+    height: 50px !important;
+
 }
+
 </style>

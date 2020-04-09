@@ -4,6 +4,7 @@
             :data="tableData"
             style="width: 100%"
             :default-sort = "{prop: 'date', order: 'descending'}"
+            :header-cell-style="{background:'#F5F7FA',color:'#606266'}"
     >
         <el-table-column
                 prop="rid"

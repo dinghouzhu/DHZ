@@ -196,9 +196,7 @@
 
 
 
-    .ListBody::-webkit-scrollbar {
-        display: none;
-    }
+
     .ListLi{
         display: block;
         width: 200px;
@@ -207,14 +205,7 @@
         word-wrap:break-word;
         word-break:break-all;
     }
-    .ListBody{
-        width: 200px;
-        height: 500px;
-        margin: 0 auto;
-        overflow-y: scroll;
-        border: 1px solid black;
-    ;
-    }
+
     .inputBody{
         width: 250px;
     }
@@ -225,7 +216,10 @@
         /*left: 50%;*/
         /*transform: translateX(-50%);*/
         /*z-index: 10;*/
-        background: white;
+        background: #e9eef3;
+        width: 80%;
+        margin: 0 auto;
+
 
     }
     .music:hover{
@@ -236,6 +230,7 @@
     .musicBody{
         float: left;
         width: 800px;
+        height: 50px;
     }
     .search{
         float: left;

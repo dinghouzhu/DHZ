@@ -7,6 +7,8 @@ import editPerson from "../pages/Home/editPerson";
 import Cata from "../pages/Home/Catalog";
 import Oneself from "../pages/Home/oneself";
 import Room from "../pages/Home/room"
+import Login from "../components/Home/Login"
+import Welcome from "../pages/Home/welcome"
 Vue.use(VueRouter);
 // 重写路由的push方法
 //  * 解决，相同路由跳转时，报错
@@ -18,9 +20,10 @@ const routes=[
     {
         name:'login',
         path:'/login',
-        component: () => import('../components/Home/Login'),
+        component: Login,
       meta:{
-        keepAlive:true
+        keepAlive:true,
+        title:'登陆页'
       }
     },
 
@@ -28,30 +31,47 @@ const routes=[
         path:'/',
         component:() => import('../pages/Home/index'),
         redirect:'/welcome',
+      meta:{
+        keepAlive:true,
+        title:'welcome'
+      },
 
         children:[
           {
             name:'welcome',
             path:'/welcome',
-            component:() => import('../pages/Home/welcome'),
+            component:Welcome,
             meta:{
-              keepAlive:true
+              keepAlive:true,
+              title:'首页'
             }
           },
           {
             name:'product',
             path:'/product',
-            component:product
+            component:product,
+            meta:{
+              keepAlive:true,
+              title:'product'
+            }
           },
           {
             name:'addPerson',
             path:'/addPerson',
-            component:addPerson
+            component:addPerson,
+            meta:{
+              keepAlive:true,
+              title:'修改密码'
+            }
           },
           {
             name:'editPerson',
             path:'/editPerson',
-            component:editPerson
+            component:editPerson,
+            meta:{
+              keepAlive:true,
+              title:'用户编辑'
+            }
           },
           {
             name:'cata',
@@ -61,25 +81,39 @@ const routes=[
           {
             name:'oneself',
             path:'/oneself',
-            component:Oneself
+            component:Oneself,
+            meta:{
+              keepAlive:true,
+              title:'音乐控件'
+            }
           },
           {
             name:'room',
             path:'/room',
             component:Room,
             meta:{
-              keepAlive:true
+              keepAlive:true,
+              title:'房间管理'
             }
           },
           {
             name:'details',
             path:'/details',
             component: () => import('../components/babel/details'),
+            meta:{
+              keepAlive:true,
+              title:'疫情防控'
+            }
+
           },
           {
             name:'order',
             path:'/welcome/order',
             component: () => import('../components/babel/order'),
+            meta:{
+              keepAlive:true,
+              title:'测试'
+            }
           },
 
         ]

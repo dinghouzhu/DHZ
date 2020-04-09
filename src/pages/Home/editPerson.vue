@@ -57,8 +57,13 @@
             <el-table
                     :data="userList"
                     style="width: 100%;margin-top:20px"
+                    @selection-change="handleSelectionChange"
+                    :header-cell-style="{background:'#F5F7FA',color:'#606266'}"
             >
-
+                <el-table-column
+                        type="selection"
+                        width="55">
+                </el-table-column>
 
                 <el-table-column align="center"
                                  prop="username"
@@ -152,7 +157,7 @@
             {required: true, message: '请输入年龄', trigger: 'blur'},
           ]
         },
-
+        multipleSelection:[],
         userForm: {
           username: '',
           password:'',
@@ -167,6 +172,10 @@
     },
 
     methods: {
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+        console.log(this.multipleSelection,val);
+      },
       //  只可输入数字
       UpNumber(e) {
         e.target.value = e.target.value.replace(/[^\d]/g, "");
