@@ -42,7 +42,7 @@
               <!--动态渲染菜单-->
 
               <el-menu
-                      background-color="#1e9fff"
+                      background-color="#026bf4"
                       class="el-menu-demo"
                       mode="horizontal"
                       @select="handleSelect"
@@ -72,6 +72,10 @@
                       <i class="el-icon-s-opportunity" style="color: white"></i>
                       <span slot="title">疫情防控</span>
                   </el-menu-item>
+                  <el-menu-item index="/order" >
+                      <i class="el-icon-lock" style="color: white"></i>
+                      <span slot="title">测试页面</span>
+                  </el-menu-item>
                   <el-menu-item index="/cata" disabled>
                       <i class="el-icon-lock" style="color: white"></i>
                       <span slot="title">主页测试(未开放)</span>
@@ -89,7 +93,8 @@
     <div class="Right">
 
         <el-menu
-                background-color="#1e9fff"
+                menu-trigger="click"
+                background-color="#026bf4"
                 class="el-menu-demo"
                 mode="horizontal"
                 @select="handleSelect"
@@ -100,7 +105,7 @@
         >
         <el-submenu index="2" >
             <template slot="title">
-                <span slot="title">我是管理员</span>
+                <span slot="title">欢迎你:{{nickname}}</span>
             </template>
             <el-menu-item index="/addPerson">
                 <i class="el-icon-edit" style="color: white"></i>
@@ -185,10 +190,10 @@ export default {
         margin-bottom: 40px;
     }
     .el-menu{
-        background-color: #1E9fff;
+        background-color:#026bf4;
     }
     .el-menu-item.is-active {
-        background: #1e9fff !important;
+        background-color:#026bf4 !important;
     }
 
     .el-container:nth-child(5) .el-aside,
@@ -201,20 +206,21 @@ export default {
     }
 
 .Content{
-    width: 80%;
+    width: 70%;
     margin: 0 auto;
 }
 
-    .Main{
+    .Main {
         width: 100%;
     }
+
 .Right{
     position: absolute;
     right: 0;
     top: 0;
-    width: 10%;
-    height: 60px;
-    background: red;
+
+
+
 }
 
 

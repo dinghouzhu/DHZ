@@ -1,6 +1,6 @@
 <template>
     <div>
-        <template>
+        <template >
             <div class="Search">
             <template>
                 <el-select v-model="value"
@@ -40,7 +40,8 @@
                         <el-input v-model="userForm.habit" autocomplete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="性别" :label-width="formLabelWidth" prop="degree">
-                        <el-input  v-model="userForm.sex" autocomplete="off"></el-input>
+                        <el-radio v-model="userForm.sex" label="男">男</el-radio>
+                        <el-radio v-model="userForm.sex" label="女">女</el-radio>
                     </el-form-item>
                     <el-form-item label="年龄" :label-width="formLabelWidth" prop="productUrl" >
                         <el-input v-model="userForm.age" autocomplete="off" @keyup.native="UpNumber" maxlength="3"></el-input>
@@ -55,6 +56,7 @@
 
 
             <el-table
+                    border
                     :data="userList"
                     style="width: 100%;margin-top:20px"
                     @selection-change="handleSelectionChange"
@@ -89,6 +91,7 @@
                         prop="sex"
                         label="性别" align="center"
                 >
+
                 </el-table-column>
                 <el-table-column
                         prop="age"

@@ -88,6 +88,15 @@ const routes=[
             }
           },
           {
+            name:'order',
+            path:'/order',
+            component: () => import('../components/babel/order'),
+            meta:{
+              keepAlive:true,
+              title:'测试'
+            }
+          },
+          {
             name:'room',
             path:'/room',
             component:Room,
@@ -106,15 +115,7 @@ const routes=[
             }
 
           },
-          {
-            name:'order',
-            path:'/welcome/order',
-            component: () => import('../components/babel/order'),
-            meta:{
-              keepAlive:true,
-              title:'测试'
-            }
-          },
+
 
         ]
 

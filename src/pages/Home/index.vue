@@ -2,7 +2,7 @@
 
         <el-container>
             <el-header>
-         <Header></Header>
+         <Menu></Menu>
             </el-header>
             <el-footer>
             <Tag></Tag>
@@ -38,12 +38,14 @@
 </script>
 
 <style>
-
+    .el-header{
+        width: 100%;
+        background-color:#026bf4;
+    }
 .el-footer{
     width: 100%;
     background: #e9eef3;
     height: 50px !important;
-
 }
 
 </style>

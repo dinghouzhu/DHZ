@@ -52,15 +52,8 @@
     cursor: pointer;
     color: red;
 }
-    .el-submenu__title:hover{
-        background-color: #42ABF9 !important;
-    }
-    .el-menu-item:hover{
-        background-color: #42ABF9 !important;
-    }
-    .userinfo {
-        cursor: pointer;
-    }
+
+
     .row-bg,.el-header {
         background-color:#1e9fff;
         color: white;
