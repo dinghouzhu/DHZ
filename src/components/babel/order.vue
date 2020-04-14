@@ -1,6 +1,9 @@
 <template>
-    <div>
+
+    <div class="content">
+        <div v-if="dialogVisible" class="dialog"></div>
         <div class="Search">
+
             <template>
                 <el-select v-model="value"
                            @change="searchResultChange"
@@ -34,27 +37,23 @@
         </el-table-column>
 
         <el-table-column align="center"
-                         prop="username"
+                         prop="id"
                          label="ID"
         >
         </el-table-column>
+
         <el-table-column
-                prop="公告标题"
-                label="别名" align="center"
-        >
-        </el-table-column>
-        <el-table-column
-                prop="des"
+                prop="username"
                 label="发布者" align="center"
         >
         </el-table-column>
         <el-table-column
-                prop="habit"
+                prop="level"
                 label="浏览权限" align="center"
         >
         </el-table-column>
         <el-table-column
-                prop="sex"
+                prop="date"
                 label="发布时间" align="center"
         >
         </el-table-column>
@@ -65,7 +64,7 @@
                 label="操作" align="center"
         >
             <template slot-scope="scope">
-                <el-button type="primary" icon="el-icon-edit" size="mini"
+                <el-button type="primary" icon="el-icon-zoom-in" size="mini"
                            @click="handleEdit(scope.index, scope.row)"></el-button>
                 <el-button
                         @click.native.prevent="deleteRow(scope.index, scope.row)"
@@ -74,17 +73,25 @@
             </template>
         </el-table-column>
     </el-table>
-
+        <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage"
+                :page-sizes="[5, 10, 20, 40]"
+                :page-size="pagesize"
+                 layout="total, sizes, prev, pager, next, jumper"
+                :total="dataTable.length">
+        </el-pagination>
         <el-dialog title="编辑公告" :visible.sync="dialogFormVisible" :modal="false" width="100%" >
             <el-form :model="form">
                 <el-form-item label="活动名称:" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" autocomplete="off" placeholder="请输入公告标题"></el-input>
+                    <el-input v-model="form.title" autocomplete="off" placeholder="请输入公告标题"></el-input>
                 </el-form-item>
                 <el-form-item label="发布者:" :label-width="formLabelWidth">
                     <el-input v-model="form.username" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="公开度:" :label-width="formLabelWidth">
-                    <el-select v-model="form.region" placeholder="公开程度">
+                    <el-select v-model="form.level" placeholder="公开程度">
                         <el-option label="暂存" value="2"></el-option>
                         <el-option label="全体可见" value="1"></el-option>
                         <el-option label="仅管理员" value="3"></el-option>
@@ -92,7 +99,7 @@
                 </el-form-item>
                 <div>
                     <el-card style="height:400px;width: 1200px">
-                        <quill-editor v-model="form.content" ref="myQuillEditor" style="height: 500px;" :options="editorOption">
+                        <quill-editor v-model="form.msg" ref="myQuillEditor" style="height: 500px;" :options="editorOption">
                             <!-- 自定义toolar -->
                             <div id="toolbar" slot="toolbar">
                                 <!-- Add a bold button -->
@@ -154,7 +161,8 @@
 </template>
 
 <script>
-  import {
+    import {getMessage,insertMsg,deleteMsg} from "../../api";
+    import {
     Quill,
     quillEditor
   } from 'vue-quill-editor'
@@ -184,6 +192,9 @@
     name: "order",
     data(){
       return{
+        currentPage:1, //初始页
+        pagesize:5,    //    每页的数据
+        dialogVisible:false,
         editorOption: {
           placeholder: "请输入",
           theme: "snow", // or 'bubble'
@@ -194,10 +205,10 @@
           }
         },
         form: {
-          name: '',
-          region: '',
           username:'',
-          content: null,
+          level: '',
+          title: '',
+          msg: null,
         },
         formLabelWidth: '120px',
         dialogFormVisible:false,
@@ -207,7 +218,59 @@
         dataTable:[]
       }
     },
+    created(){
+     this.getMsg()
+    },
+
     methods:{
+      handleSizeChange(size) {
+        this.pagesize = size;
+        console.log(this.pagesize)  //每页下拉显示数据
+      },
+      handleCurrentChange(currentPage){
+        this.currentPage = currentPage;
+        console.log(this.currentPage)  //点击第几页
+      },
+
+
+      handleEdit(index,row){
+        this.dialogVisible=true;
+        console.log(row);
+      },
+      //删除公告
+      deleteRow(index,row){
+        var token=localStorage.getItem('token');
+        var _this=this;
+        var id=row.id;
+        this.$confirm('此操作将永久删除该条公告, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          setTimeout(() => {
+            deleteMsg(id,token)
+              .then(res=>{
+                if (res.data.code ==200){
+                  _this.$message({
+                    type:'success',
+                    message:res.data.msg
+                  });
+                  _this.getMsg()
+                }
+              })
+              .catch(err=>{
+                console.log(err);
+              })
+          }, 500);
+
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+
+      },
       handleSelectionChange(val) {
         this.multipleSelection = val.id;
         console.log(val,multipleSelection);
@@ -215,32 +278,80 @@
       searchResultChange(){
 
       },
+      //查询所有公告
+      getMsg(){
+        getMessage()
+          .then(res=>{
+            this.dataTable=res.data.data.res;
+          })
+          .catch(err=>{
+            console.log(err);
+          })
+      },
+
+
 
       searchInput(){
 
       },
+      //添加公告
       addMsg(){
-        this.dialogFormVisible=true
+        this.dialogFormVisible=true;
       },
       sendMsg(){
+     // username,nickname,date,title,msg,token
+        let {username,level,title,msg}=this.form;
+        var _this=this;
+        var token=localStorage.getItem('token');
+        let date=new Date().format("yyyy-MM-dd");
+        insertMsg(username,level,title,msg,date,token)
+          .then(res=>{
+            if (res.data.code ==200){
+              _this.$message({
+                type:'success',
+                message:res.data.msg
+              });
+            }
+            _this.getMsg()
+          })
+          .catch(err=>{
+            console.log(err);
+          });
         this.dialogFormVisible=false;
-        console.log(this.form.content);
+        console.log(this.form.level);
       }
     },
+    beforeDestroy(){
+      clearInterval();
+    }
 
   };
 </script>
 
 <style scoped>
     @import '../../assets/styles/font.css';
+    .dialog{
+        width: 100%;
+        height: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        position: absolute;
+        z-index: 10;
+        background-color: blue;
+    }
     .Search{
         float: left;
         margin-bottom: 5px;
     }
+    .content{
+        width: 100%;
+        height: 100%;
+        position: relative;
+
+    }
     .el-input{
         width: 300px;
         float: left;
-
     }
     .el-select{
         float: left;
