@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-<keep-alive :include="include">
+
       <router-view ></router-view>
-</keep-alive>
+
 
   </div>
 </template>

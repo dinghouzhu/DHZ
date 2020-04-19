@@ -6,9 +6,12 @@ import addPerson from "../pages/Home/addPerson";
 import editPerson from "../pages/Home/editPerson";
 import Cata from "../pages/Home/Catalog";
 import Oneself from "../pages/Home/oneself";
-import Room from "../pages/Home/room"
-import Login from "../components/Home/Login"
-import Welcome from "../pages/Home/welcome"
+import Room from "../pages/Home/room";
+import Login from "../components/Home/Login";
+import Home from "../pages/Home/index";
+import Welcome from "../pages/Home/welcome";
+import Order from "../components/babel/order";
+import Details from "../components/babel/details"
 Vue.use(VueRouter);
 // 重写路由的push方法
 //  * 解决，相同路由跳转时，报错
@@ -16,6 +19,8 @@ const routerPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
   return routerPush.call(this, location).catch(error => error)
 };
+
+
 const routes=[
     {
         name:'login',
@@ -29,7 +34,7 @@ const routes=[
 
     {
         path:'/',
-        component:() => import('../pages/Home/index'),
+        component:Home,
         redirect:'/welcome',
       meta:{
         keepAlive:true,
@@ -73,24 +78,24 @@ const routes=[
               title:'用户编辑'
             }
           },
-          {
-            name:'cata',
-            path:'/cata',
-            component:Cata
-          },
-          {
-            name:'oneself',
-            path:'/oneself',
-            component:Oneself,
-            meta:{
-              keepAlive:true,
-              title:'音乐控件'
-            }
-          },
+          // {
+          //   name:'cata',
+          //   path:'/cata',
+          //   component:Cata
+          // },
+          // {
+          //   name:'oneself',
+          //   path:'/oneself',
+          //   component:Oneself,
+          //   meta:{
+          //     keepAlive:true,
+          //     title:'音乐控件'
+          //   }
+          // },
           {
             name:'order',
             path:'/order',
-            component: () => import('../components/babel/order'),
+            component: Order,
             meta:{
               keepAlive:true,
               title:'测试'
@@ -108,24 +113,21 @@ const routes=[
           {
             name:'details',
             path:'/details',
-            component: () => import('../components/babel/details'),
+            component: Details,
             meta:{
               keepAlive:true,
               title:'疫情防控'
             }
-
           },
-
-
         ]
-
-
     },
   {
+    name:NotFound,
     path: "/404",
     component: NotFound
   },
   {
+    name:NotFound,
     path: "*",
     redirect: "/404"
   }
@@ -134,6 +136,6 @@ const routes=[
 export default new VueRouter(
     {
         routes,
-        mode:'history'
+         // mode:'history'
     }
 )

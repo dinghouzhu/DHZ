@@ -73,15 +73,15 @@
             </template>
         </el-table-column>
     </el-table>
-        <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage"
-                :page-sizes="[5, 10, 20, 40]"
-                :page-size="pagesize"
-                 layout="total, sizes, prev, pager, next, jumper"
-                :total="dataTable.length">
-        </el-pagination>
+        <!--<el-pagination-->
+                <!--@size-change="handleSizeChange"-->
+                <!--@current-change="handleCurrentChange"-->
+                <!--:current-page="currentPage"-->
+                <!--:page-sizes="[5, 10, 20, 40]"-->
+                <!--:page-size="pagesize"-->
+                 <!--layout="total, sizes, prev, pager, next, jumper"-->
+                <!--:total="dataTable.length">-->
+        <!--</el-pagination>-->
         <el-dialog title="编辑公告" :visible.sync="dialogFormVisible" :modal="false" width="100%" >
             <el-form :model="form">
                 <el-form-item label="活动名称:" :label-width="formLabelWidth">

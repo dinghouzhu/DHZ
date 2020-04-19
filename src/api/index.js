@@ -4,7 +4,7 @@ import da from "element-ui/src/locale/lang/da";
 /*
 //发送请求给每个请求体添加额外请求头
 axios.interceptors.request.use(function (config) {
-   if (config.url == "http://localhost:8080/user/login"){
+   if (config.url == "http://106.12.176.212:8080/user/login"){
        return config
    }else {
        let Token =localStorage.getItem("token");
@@ -30,13 +30,13 @@ axios.interceptors.response.use(function (config) {
 
 //获取登入日志
 export const getLoginLog=()=>axios({
-    url:"http://localhost:8080/getloginlog",
+    url:"http://106.12.176.212:8080/getloginlog",
 });
 export const getClass=()=>axios({
-    url:"http://localhost:8080/students/getstulist",
+    url:"http://106.12.176.212:8080/students/getstulist",
 });
 export const delStu=(sId,token)=>axios({
-    url:"http://localhost:8080/students/delstu",
+    url:"http://106.12.176.212:8080/students/delstu",
     method:'get',
     params:{
         sId,
@@ -45,25 +45,25 @@ export const delStu=(sId,token)=>axios({
 });
 //添加数据
 export const addstu=(data)=>axios({
-    url:"http://localhost:8080/students/addstu",
+    url:"http://106.12.176.212:8080/students/addstu",
     method:'post',
     data:data,
 });
 //更新数据
 export const editStuInfo=data=>axios({
-    url:"http://localhost:8080/students/updatestu",
+    url:"http://106.12.176.212:8080/students/updatestu",
     method:'post',
     data
 });
 //查找数据
 export const searchStu=params=>axios({
-    url:"http://localhost:8080/students/searchstu",
+    url:"http://106.12.176.212:8080/students/searchstu",
     params
 });
 
 //班级列表
 export const getClasses=data=>axios({
-       url:"http://localhost:8080/students/getclasses",
+       url:"http://106.12.176.212:8080/students/getclasses",
        method:'get',
        data
     });
@@ -75,7 +75,7 @@ export const getClasses=data=>axios({
 
 //定义登陆方法
 export const login=(username,password)=>axios({
-    url:"http://localhost:8080/user/login",
+    url:"http://106.12.176.212:8080/user/login",
     method:'post',
     data:{
       username,
@@ -86,7 +86,7 @@ export const login=(username,password)=>axios({
 
 //查询所有用户
 export const getUsers=()=>axios({
-  url:"http://localhost:8080/user/userlist",
+  url:"http://106.12.176.212:8080/user/userlist",
   method:'post',
   params:{
 
@@ -96,7 +96,7 @@ export const getUsers=()=>axios({
 
 //查询用户
 export const searchUser=(username)=>axios({
-  url:"http://localhost:8080/user/searchUser",
+  url:"http://106.12.176.212:8080/user/searchUser",
   method:'post',
   params:{
     username
@@ -106,7 +106,7 @@ export const searchUser=(username)=>axios({
 
 //查询用户  模糊查询
 export const searchUsers=(username)=>axios({
-  url:"http://localhost:8080/user/searchUsers",
+  url:"http://106.12.176.212:8080/user/searchUsers",
   method:'post',
   params:{
     username
@@ -116,7 +116,7 @@ export const searchUsers=(username)=>axios({
 
 //删除用户
 export const deleteUser=(username,token)=>axios({
-  url:"http://localhost:8080/user/deleteUser",
+  url:"http://106.12.176.212:8080/user/deleteUser",
   method:'post',
   data:{
     username,token
@@ -126,7 +126,7 @@ export const deleteUser=(username,token)=>axios({
 
 //修改密码
 export const resetPassword=(username,oldPassword,newPassword,againPassword)=>axios({
-    url:"http://localhost:8080/user/updatePassword",
+    url:"http://106.12.176.212:8080/user/updatePassword",
     method:'post',
     data:{
         username,oldPassword,newPassword,againPassword
@@ -135,7 +135,7 @@ export const resetPassword=(username,oldPassword,newPassword,againPassword)=>axi
 
 //注册用户
 export const addUser=(username,password,nickname,des,habit,sex,age,IP,token)=>axios({
-    url:"http://localhost:8080/user/register",
+    url:"http://106.12.176.212:8080/user/register",
     method:'post',
     data:{
         username,password,nickname,des,habit,sex,age,IP,token
@@ -145,7 +145,7 @@ export const addUser=(username,password,nickname,des,habit,sex,age,IP,token)=>ax
 
 //修改用户信息
 export const updateUser=(username,password,nickname,des,habit,sex,age,token)=>axios({
-  url:"http://localhost:8080/user/updateUser",
+  url:"http://106.12.176.212:8080/user/updateUser",
   method:'post',
   data:{
     username,password,nickname,des,habit,sex,age,token
@@ -156,7 +156,7 @@ export const updateUser=(username,password,nickname,des,habit,sex,age,token)=>ax
 
 //获取酒店信息
 export const getHotel=()=>axios({
-  url:"http://localhost:8080/hotel/hotel",
+  url:"http://106.12.176.212:8080/hotel/hotel",
   method:'post',
   params:{
 
@@ -166,7 +166,7 @@ export const getHotel=()=>axios({
 
 //获取房间信息
 export const getRooms=()=>axios({
-  url:"http://localhost:8080/room/rooms",
+  url:"http://106.12.176.212:8080/room/rooms",
   method:'post',
   params:{
 
@@ -176,7 +176,7 @@ export const getRooms=()=>axios({
 
 //插入新订单
 export const updateOrders=(username,roomid,type,price,breakfast ,date,token)=>axios({
-  url:"http://localhost:8080/order/insert",
+  url:"http://106.12.176.212:8080/order/insert",
   method:'post',
   data:{
     username,roomid,type,price,breakfast ,date,token
@@ -206,7 +206,7 @@ export const searchSong=(id)=>axios({
 
 //间隔验证token
 export const getAgain=(token)=>axios({
-  url:"http://localhost:8080/user/again",
+  url:"http://106.12.176.212:8080/user/again",
   method:'post',
   data:{
      token
@@ -216,7 +216,7 @@ export const getAgain=(token)=>axios({
 
 //登录日志
 export const loginLog=(username,nickname,date,IP)=>axios({
-  url:"http://localhost:8080/user/loginLog",
+  url:"http://106.12.176.212:8080/user/loginLog",
   method:'post',
   data:{
     username,nickname,date,IP
@@ -248,13 +248,13 @@ export const getHubei=()=>axios({
 });
 //获取公告
 export const getMessage=()=>axios({
-  url:"http://localhost:8080/msg/msg",
+  url:"http://106.12.176.212:8080/msg/msg",
   method:'post',
   timeout: 5000
 });
 //插入单条公告
 export const insertMsg=(username,level,title,msg,date,token)=>axios({
-  url:"http://localhost:8080/msg/insertmsg",
+  url:"http://106.12.176.212:8080/msg/insertmsg",
   method:'post',
   data:{
     username,level,title,msg,date,token
@@ -264,7 +264,7 @@ export const insertMsg=(username,level,title,msg,date,token)=>axios({
 
 //删除单条公告
 export const deleteMsg=(id,token)=>axios({
-  url:"http://localhost:8080/msg/deleteMsg",
+  url:"http://106.12.176.212:8080/msg/deleteMsg",
   method:'post',
   data:{
     id,token
