@@ -33,6 +33,7 @@ const routes=[
     },
 
     {
+        name:'index',
         path:'/',
         component:Home,
         redirect:'/welcome',
@@ -47,7 +48,7 @@ const routes=[
             path:'/welcome',
             component:Welcome,
             meta:{
-              keepAlive:true,
+              keepAlive:false,
               title:'首页'
             }
           },
@@ -56,7 +57,7 @@ const routes=[
             path:'/product',
             component:product,
             meta:{
-              keepAlive:true,
+              keepAlive:false,
               title:'product'
             }
           },
@@ -65,7 +66,7 @@ const routes=[
             path:'/addPerson',
             component:addPerson,
             meta:{
-              keepAlive:true,
+              keepAlive:false,
               title:'修改密码'
             }
           },
@@ -78,27 +79,31 @@ const routes=[
               title:'用户编辑'
             }
           },
-          // {
-          //   name:'cata',
-          //   path:'/cata',
-          //   component:Cata
-          // },
-          // {
-          //   name:'oneself',
-          //   path:'/oneself',
-          //   component:Oneself,
-          //   meta:{
-          //     keepAlive:true,
-          //     title:'音乐控件'
-          //   }
-          // },
+          {
+            name:'cata',
+            path:'/cata',
+            component: resolve=>require(['../pages/Home/Catalog'],resolve),
+            meta:{
+              keepAlive:false,
+              title:'测试主页'
+            }
+          },
+          {
+            name:'oneself',
+            path:'/oneself',
+            component: resolve=>require(['../pages/Home/oneself'],resolve),
+            meta:{
+              keepAlive:false,
+              title:'音乐控件'
+            }
+          },
           {
             name:'order',
             path:'/order',
             component: Order,
             meta:{
               keepAlive:true,
-              title:'测试'
+              title:'公告'
             }
           },
           {
@@ -111,7 +116,7 @@ const routes=[
             }
           },
           {
-            name:'details',
+            name:'yiqing',
             path:'/details',
             component: Details,
             meta:{
@@ -124,7 +129,7 @@ const routes=[
   {
     name:NotFound,
     path: "/404",
-    component: NotFound
+    component: resolve=>require(['../components/Home/notFound'],resolve)
   },
   {
     name:NotFound,
@@ -136,6 +141,6 @@ const routes=[
 export default new VueRouter(
     {
         routes,
-         // mode:'history'
+         mode:'history'
     }
 )

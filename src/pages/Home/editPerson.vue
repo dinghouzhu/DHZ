@@ -125,6 +125,7 @@
 <script>
     import {getUsers,deleteUser,searchUser,addUser,updateUser,searchUsers} from "../../api"
   export default {
+      name:'editPerson',
     data(){
       return{
 

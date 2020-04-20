@@ -19,6 +19,7 @@
 
 <script>
   export default {
+    name:'table',
     data() {
       return {
         styleObject: {},

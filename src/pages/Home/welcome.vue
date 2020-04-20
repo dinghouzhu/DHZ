@@ -72,7 +72,7 @@
     import {getHotel} from "@/api";
 
     export default {
-      name:'welcome',
+       name:'welcome',
         data() {
             return {
                 Hotels:[],

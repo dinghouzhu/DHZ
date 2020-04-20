@@ -160,6 +160,7 @@
 <script>
     import {getClass,delStu,addstu,editStuInfo,searchStu,getClasses,getStuList} from "../../api"
     export default {
+      name:'product',
         data() {
             return {
                 total: 10,

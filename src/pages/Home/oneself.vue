@@ -1,6 +1,6 @@
-<template>
-    <div class="music">
-        <div class="musicBody">
+<template @clikc="getBusinessQy">
+    <div class="music" >
+        <div class="musicBody" >
         <el-row>
             <el-col :span="4">
                 <el-popover
@@ -69,8 +69,9 @@
 <script>
   import qs from "qs"
   import {searchUser,searchSongs,searchSong} from "../../api";
-
+  import {mapMutations,mapActions} from "vuex"
   export default{
+    name:'oneself',
         data(){
             return {
                 value:'',
@@ -96,6 +97,7 @@
         },
 
         methods:{
+          ...mapActions(['getBusinessQy']),
           searchResultChange(key) {
             //过滤请求到的数据  如果没有  刷新页面
             var _this=this;

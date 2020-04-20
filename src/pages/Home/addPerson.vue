@@ -24,6 +24,7 @@
 <script>
     import {resetPassword} from "../../api";
     export default {
+      name:'addPerson',
         data() {
             var checkWord = (rule, value, callback) => {
                 if (!value) {

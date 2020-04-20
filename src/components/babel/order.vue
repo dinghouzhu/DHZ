@@ -1,7 +1,7 @@
 <template>
 
     <div class="content">
-        <div v-if="dialogVisible" class="dialog"></div>
+        <div v-show="$store.state.show" class="dialog"></div>
         <div class="Search">
 
             <template>
@@ -65,7 +65,7 @@
         >
             <template slot-scope="scope">
                 <el-button type="primary" icon="el-icon-zoom-in" size="mini"
-                           @click="handleEdit(scope.index, scope.row)"></el-button>
+                           @click="getBusinessQyxz"></el-button>
                 <el-button
                         @click.native.prevent="deleteRow(scope.index, scope.row)"
                         type="danger" icon="el-icon-delete" size="mini">
@@ -162,6 +162,7 @@
 
 <script>
     import {getMessage,insertMsg,deleteMsg} from "../../api";
+    import {mapMutations,mapActions} from "vuex"
     import {
     Quill,
     quillEditor
@@ -194,7 +195,6 @@
       return{
         currentPage:1, //初始页
         pagesize:5,    //    每页的数据
-        dialogVisible:false,
         editorOption: {
           placeholder: "请输入",
           theme: "snow", // or 'bubble'
@@ -221,8 +221,13 @@
     created(){
      this.getMsg()
     },
+    deactivated(){
+      //离开页面时触发 keepalive专属
+      this.getMsg()
+    },
 
     methods:{
+      ...mapActions(['getBusinessQyxz']),
       handleSizeChange(size) {
         this.pagesize = size;
         console.log(this.pagesize)  //每页下拉显示数据
@@ -234,7 +239,8 @@
 
 
       handleEdit(index,row){
-        this.dialogVisible=true;
+       // this.dialogVisible=true;
+
         console.log(row);
       },
       //删除公告

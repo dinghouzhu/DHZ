@@ -84,6 +84,7 @@
   import '../../../node_modules/echarts/map/js/china.js' // 引入中国地图数据
  import {getXinguan,getMsg,getHubei} from "../../api";
     export default {
+      name:'yiqing',
       data(){
       return{
         disabled:true,

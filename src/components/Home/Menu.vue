@@ -76,13 +76,13 @@
                       <i class="el-icon-lock" style="color: white"></i>
                       <span slot="title">测试页面</span>
                   </el-menu-item>
-                  <el-menu-item index="/cata" disabled>
+                  <el-menu-item index="/cata" :disabled="$store.state.disabled">
                       <i class="el-icon-lock" style="color: white"></i>
-                      <span slot="title">主页测试(未开放)</span>
+                      <span slot="title">{{$store.state.disabled ? '主页测试(未开放)':'主页测试(测试)' }}</span>
                   </el-menu-item>
-                  <el-menu-item index="/oneself" disabled>
+                  <el-menu-item index="/oneself" :disabled="$store.state.disabled">
                       <i class="el-icon-service" style="color: white"></i>
-                      <span slot="title">音乐页测试(未开放)</span>
+                      <span slot="title">{{$store.state.disabled ? '音乐页测试(未开放)':'音乐页测试(测试)' }}</span>
                   </el-menu-item>
 
               </el-menu>
@@ -111,6 +111,10 @@
                 <i class="el-icon-edit" style="color: white"></i>
                 <span slot="title">修改密码</span>
             </el-menu-item>
+            <el-menu-item @click="changeMenuDisabled">
+                <i class="el-icon-s-custom" style="color: white"></i>
+                <span slot="title">{{$store.state.disabled ? '开放测试':'关闭测试'}}</span>
+            </el-menu-item>
             <el-menu-item @click="rev">
                 <i class="el-icon-user" style="color: white"></i>
                 <span slot="title">退出</span>
@@ -124,8 +128,9 @@
 </template>
 
 <script>
-
+  import {mapMutations,mapActions} from "vuex"
 export default {
+  name:'menumenu',
   data(){
     return{
       img_url:'https://p4.music.126.net/V9tibxqfdJk-BXdyQLn-MQ==/109951163452834453.jpg',
@@ -137,6 +142,9 @@ export default {
     this.nickname=localStorage.getItem('nickname')
   },
     methods:{
+      ...mapMutations(['changeMenuDisabled']),
+
+
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
       },

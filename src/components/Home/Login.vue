@@ -81,7 +81,7 @@
 <script>
   import {login,loginLog} from "@/api";
   export default {
-
+    name:'login',
     data(){
       var validateUsn = (rule, value, callback) => {
         var uPattern = /[a-zA-Z]{3}/;   //至少三位字符

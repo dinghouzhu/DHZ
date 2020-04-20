@@ -1,7 +1,7 @@
 <template>
     <div >
-        <div class="header">
-            <Menu></Menu>
+        <div class="header" @click="getBusinessQy">
+            <Menu @click="getBusinessQy"></Menu>
         <!--<el-row type="flex" class="row-bg" justify="space-between">-->
             <!--<el-col :span="6">-->
                 <!--<div class="grid-content icon-collapase">-->
@@ -18,21 +18,26 @@
 </template>
 
 <script>
+    import bus from "./bus"
     import Menu from '../Home/Menu'
-    import {mapMutations} from "vuex"
+    import {mapMutations,mapActions} from "vuex"
     export default {
+      name:'tou',
       components:{
         Menu
       },
       data(){
         return {
-          nickname:''
+          nickname:'',
+
         }
       },
       mounted(){
         this.nickname=localStorage.getItem('nickname')
       },
        methods:{
+         ...mapActions(['getBusinessQy']),
+
            rev(){
                localStorage.clear();
                this.$router.push("/login");

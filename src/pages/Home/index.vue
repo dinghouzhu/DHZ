@@ -2,16 +2,18 @@
 
         <el-container>
             <el-header>
-         <Menu></Menu>
+         <Header></Header>
             </el-header>
             <el-footer>
             <Tag></Tag>
             </el-footer>
-            <el-footer>
-                <Music></Music>
+            <el-footer >
+                <Music ></Music>
             </el-footer>
             <el-main>
+                <keep-alive :include="$store.state.include">
                 <router-view></router-view>
+                </keep-alive>
             </el-main>
 
 
@@ -28,12 +30,14 @@
 
 
     export default {
+      name:'index',
        components:{
          Tag,
            Menu,
            Header,
          Music
-       }
+       },
+
     }
 </script>
 

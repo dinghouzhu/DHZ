@@ -30,6 +30,7 @@
 <script>
 import bus from './bus';
 export default {
+   name:'tags',
     data() {
         return {
             tagsList: []
