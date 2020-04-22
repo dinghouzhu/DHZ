@@ -5,11 +5,12 @@
 </template>
 
 <script>
-    import {getAgain} from "./api";
+    import {getAgain,getJur} from "./api";
   export default {
     data () {
       return {
         nowTime:null,
+        turn:null,
       };
     },
 
@@ -17,14 +18,32 @@
 
     },
     methods: {
-
+     getJur(){
+       getJur()
+         .then(res=>{
+           this.turn=res.data.data.res[0].value;
+           console.log(this.turn);
+           if (this.turn == 0) {
+             this.$store.state.turn=this.turn;
+             this.$router.push('/');
+             localStorage.clear();
+             this.$message({
+               type:'error',
+               message:'禁止登录,请与管理员联系！'
+             })
+           }
+         })
+         .catch(err=>{
+           console.log(err);
+         })
+     }
   },
     beforeCreate(){
 
 
     },
     mounted(){
-
+        this.getJur();
       // window.onbeforeunload = function (e) {
       //   var storage = window.localStorage;
       //   storage.clear()

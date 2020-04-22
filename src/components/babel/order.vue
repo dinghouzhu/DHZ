@@ -22,7 +22,7 @@
             <el-button type="success" plain
                        @click="addMsg">编写信息</el-button>
             <el-button type="danger" plain
-                       @click="addMsg">批量删除</el-button>
+                       @click="handleEdit">批量删除</el-button>
         </div>
     <el-table
             border
@@ -65,7 +65,7 @@
         >
             <template slot-scope="scope">
                 <el-button type="primary" icon="el-icon-zoom-in" size="mini"
-                           @click="getBusinessQyxz"></el-button>
+                           @click="handleEdit(scope.index, scope.row)"></el-button>
                 <el-button
                         @click.native.prevent="deleteRow(scope.index, scope.row)"
                         type="danger" icon="el-icon-delete" size="mini">
@@ -240,8 +240,11 @@
 
       handleEdit(index,row){
        // this.dialogVisible=true;
-
-        console.log(row);
+        this.$message({
+          type:'warning',
+          message:'暂未实现'
+        });
+       // console.log(row);
       },
       //删除公告
       deleteRow(index,row){

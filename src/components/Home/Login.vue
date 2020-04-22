@@ -161,6 +161,7 @@
 
             let {username,password}=this.ruleForm;
             var  _this=this;
+            if (this.$store.state.turn != 0){
             login(username,password)
               .then(res=>{
                 loading.close();
@@ -178,13 +179,7 @@
                   let nickname=res.data.data.userInfo.nickname;
                   // let IP=this.ready();  //获取IP
                   let date=new Date().format("yyyy-MM-dd hh:mm:ss");
-                  // loginLog(username,nickname,date)
-                  //   .then(res=>{
-                  //     console.log(res);
-                  //   })
-                  //   .catch(err=>{
-                  //     console.log(err);
-                  //   })
+
                 }else {
                     _this.$message({
                       type:'error',
@@ -200,6 +195,13 @@
                   message:'网络错误'
                 })
               });
+            }else {
+              _this.$message({
+                type:'warning',
+                message:'暂时无法登录'
+              });
+              loading.close();
+            }
           } else {
             console.log('提交错误');
             return false;

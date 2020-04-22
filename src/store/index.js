@@ -8,6 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+       turn:null,
        show:false,
        include:['welcome','room','yiqing','order'],//缓存路由
        disabled:true,
