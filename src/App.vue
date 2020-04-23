@@ -25,12 +25,12 @@
            console.log(this.turn);
            if (this.turn == 0) {
              this.$store.state.turn=this.turn;
-             this.$router.push('/');
              localStorage.clear();
              this.$message({
                type:'error',
                message:'禁止登录,请与管理员联系！'
-             })
+             });
+             this.$router.push('/');
            }
          })
          .catch(err=>{
@@ -38,10 +38,7 @@
          })
      }
   },
-    beforeCreate(){
 
-
-    },
     mounted(){
         this.getJur();
       // window.onbeforeunload = function (e) {
@@ -55,6 +52,7 @@
          this.timer=setInterval(()=>{
           var token=localStorage.getItem('token');
           var _this=this;
+          this.getJur();
           getAgain(token)
             .then(res=>{
               if (res.data.code ==200){
@@ -68,7 +66,7 @@
             .catch(err=>{
               console.log(err);
             })
-        },60000)
+        },30000)
       }
 
     }

@@ -11,16 +11,16 @@
                            filterable
                            remote
                            reserve-keyword
-                           placeholder="支持模糊查询"
+                           placeholder="查询公告标题"
                            :remote-method="searchInput">
                     <el-option v-for="item in searchResult"
-                               :key="item.username"
-                               :value="item.username">
+                               :key="item.id"
+                               :value="item.title">
                     </el-option>
                 </el-select>
             </template>
             <el-button type="success" plain
-                       @click="addMsg">编写信息</el-button>
+                       @click="dialogFormVisible=true">编写信息</el-button>
             <el-button type="danger" plain
                        @click="deleteRowhandleEdit">批量删除</el-button>
         </div>
@@ -41,7 +41,11 @@
                          label="ID"
         >
         </el-table-column>
-
+        <el-table-column align="center"
+                         prop="title"
+                         label="标题"
+        >
+        </el-table-column>
         <el-table-column
                 prop="username"
                 label="发布者" align="center"
@@ -157,6 +161,35 @@
                 <el-button type="primary" @click="sendMsg">确 定</el-button>
             </div>
         </el-dialog>
+
+
+        <el-drawer
+                title="详情"
+                :visible.sync="drawer"
+                :with-header="false">
+            <el-form :model="form">
+                <el-form-item label="发布人:" :label-width="formLabelWidth">
+                    <el-input v-model="form.username" autocomplete="off" :disabled="disabled"></el-input>
+                </el-form-item>
+                <el-form-item label="标题:" :label-width="formLabelWidth">
+                    <el-input v-model="form.title" autocomplete="off" :disabled="disabled"></el-input>
+                </el-form-item>
+                <el-form-item label="权限等级:" :label-width="formLabelWidth">
+                    <template slot-scope="scope" >
+                        <!-- <el-rate v-model="scope.row.evaValue" :allow-half="true"  disabled show-score text-color="#ff9900" score-template="{value}"></el-rate> -->
+                        <el-rate v-model="form.level" :allow-half="true"  disabled text-color="#ff9900"></el-rate>
+                    </template>
+                </el-form-item>
+                <el-form-item label="内容:" :label-width="formLabelWidth">
+                    <!--<el-input v-html="form.msg" autocomplete="off" :disabled="disabled" type="textarea"-->
+                              <!--:rows="4">-->
+                    <!--</el-input>-->
+                    <div class="msg"><p v-html="form.msg"></p></div>
+
+                </el-form-item>
+
+            </el-form>
+        </el-drawer>
     </div>
 
 </template>
@@ -192,6 +225,8 @@
     name: "order",
     data(){
       return{
+        disabled:true,
+        drawer:false,
         currentPage:1, //初始页
         pagesize:5,    //    每页的数据
         editorOption: {
@@ -263,12 +298,12 @@
       },
       //显示该条公告
       handleEdit(index,row){
-       // this.dialogVisible=true;
-        this.$message({
-          type:'warning',
-          message:'暂未实现'
-        });
-
+        this.form=row
+        this.drawer=true;
+        // this.$message({
+        //   type:'warning',
+        //   message:'暂未实现'
+        // });
       },
       //删除单条公告
       deleteRow(index,row){
@@ -325,10 +360,15 @@
         console.log( _this.multipleSelection);
       },
       searchResultChange(value){
-           console.log(value);
+        if (!value) {
+          this.searchResult=[];
+          this.getMsg();
+        }else {
+          this.dataTable=this.searchResult
+        }
       },
       searchInput(value){
-        console.log(value);
+        this.searchResult = this.dataTable.filter(item => item.title === value);
       },
       //查询所有公告
       getMsg(){
@@ -340,17 +380,13 @@
             console.log(err);
           })
       },
-
-
-
-
       //添加公告
-      addMsg(){
-        this.dialogFormVisible=true;
-      },
       sendMsg(){
      // username,nickname,date,title,msg,token
         let {username,level,title,msg}=this.form;
+        if (level ==='' ||level === null ||level === undefined){
+          level=1;
+        }
         var _this=this;
         var token=localStorage.getItem('token');
         let date=new Date().format("yyyy-MM-dd");
@@ -405,5 +441,11 @@
     }
     .el-select{
         float: left;
+    }
+    .msg{
+        text-indent: 5px;
+        height: 300px;
+        overflow-y: scroll;
+        border: 1px solid black;
     }
 </style>

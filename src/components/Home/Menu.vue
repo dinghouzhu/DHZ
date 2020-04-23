@@ -128,7 +128,7 @@
 </template>
 
 <script>
-  import {mapMutations,mapActions} from "vuex"
+  import {mapMutations} from "vuex"
 export default {
   name:'menumenu',
   data(){

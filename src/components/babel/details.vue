@@ -283,9 +283,9 @@
       created(){
         this.getXinguan();
         this.getMsg();
-
       },
       mounted(){
+        //表格绘制需要在mounted阶段执行
          this.initCharts();
          this.init();
          this.initYuan();
