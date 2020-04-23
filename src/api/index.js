@@ -272,6 +272,8 @@ export const deleteMsg=(id,token)=>axios({
   timeout: 5000
 });
 
+
+
 //货权权限列表
 export const getJur=()=>axios({
   url:"http://106.12.176.212:8080/jur/jur",

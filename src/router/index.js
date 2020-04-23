@@ -33,7 +33,7 @@ const routes=[
     },
 
     {
-        name:'index',
+        name:'welcome',
         path:'/',
         component:Home,
         redirect:'/welcome',

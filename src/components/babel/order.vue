@@ -22,7 +22,7 @@
             <el-button type="success" plain
                        @click="addMsg">编写信息</el-button>
             <el-button type="danger" plain
-                       @click="handleEdit">批量删除</el-button>
+                       @click="deleteRowhandleEdit">批量删除</el-button>
         </div>
     <el-table
             border
@@ -66,6 +66,7 @@
             <template slot-scope="scope">
                 <el-button type="primary" icon="el-icon-zoom-in" size="mini"
                            @click="handleEdit(scope.index, scope.row)"></el-button>
+
                 <el-button
                         @click.native.prevent="deleteRow(scope.index, scope.row)"
                         type="danger" icon="el-icon-delete" size="mini">
@@ -162,7 +163,7 @@
 
 <script>
     import {getMessage,insertMsg,deleteMsg} from "../../api";
-    import {mapMutations,mapActions} from "vuex"
+    import {mapActions} from "vuex"
     import {
     Quill,
     quillEditor
@@ -172,8 +173,6 @@
   import 'quill/dist/quill.bubble.css'
 
   //引入font.css
-
-
   let Size = Quill.import('attributors/style/size');
   Size.whitelist = ['10px', '12px', '14px', '16px', '18px', '20px'];
   Quill.register(Size, true);
@@ -228,25 +227,50 @@
 
     methods:{
       ...mapActions(['getBusinessQyxz']),
-      handleSizeChange(size) {
-        this.pagesize = size;
-        console.log(this.pagesize)  //每页下拉显示数据
+      //利用循环批量删除
+      deleteRowhandleEdit(){
+        let token=localStorage.getItem('token');
+        let Id=this.multipleSelection;
+        var _this=this;
+          this.$confirm('此操作将永久删除公告, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            Id.map(function(item) {
+              console.log(item);
+              deleteMsg(item,token)
+                .then(res=>{
+                  if (res.data.code ==200){
+                    _this.$message({
+                      type:'success',
+                      message:res.data.msg
+                    });
+                    _this.getMsg()
+                  }
+                })
+                .catch(err=>{
+                  console.log(err);
+                })
+            });
+          })
+            .catch(err=>{
+              this.$message({
+                type: 'info',
+                message: '已取消删除'
+              });
+            });
       },
-      handleCurrentChange(currentPage){
-        this.currentPage = currentPage;
-        console.log(this.currentPage)  //点击第几页
-      },
-
-
+      //显示该条公告
       handleEdit(index,row){
        // this.dialogVisible=true;
         this.$message({
           type:'warning',
           message:'暂未实现'
         });
-       // console.log(row);
+
       },
-      //删除公告
+      //删除单条公告
       deleteRow(index,row){
         var token=localStorage.getItem('token');
         var _this=this;
@@ -256,21 +280,31 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          setTimeout(() => {
+          const loading = this.$loading({
+            lock: true,
+            text: '正在删除...',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+          });
             deleteMsg(id,token)
               .then(res=>{
                 if (res.data.code ==200){
-                  _this.$message({
-                    type:'success',
-                    message:res.data.msg
-                  });
-                  _this.getMsg()
+                  _this.timer=setTimeout(() => {
+                    loading.close();
+                    _this.$message({
+                      type:'success',
+                      message:res.data.msg
+                    });
+                  }, 700);
+
+                  _this.getMsg();
+
                 }
               })
               .catch(err=>{
                 console.log(err);
               })
-          }, 500);
+
 
         }).catch(() => {
           this.$message({
@@ -280,12 +314,21 @@
         });
 
       },
+      //多选公告列表
       handleSelectionChange(val) {
-        this.multipleSelection = val.id;
-        console.log(val,multipleSelection);
+        var _this=this;
+        _this.multipleSelection=[];
+        val.map(function(item,index) {
+          _this.multipleSelection.push(item.id);
+        });
+        _this.multipleSelection=Array.from(new Set( _this.multipleSelection));
+        console.log( _this.multipleSelection);
       },
-      searchResultChange(){
-
+      searchResultChange(value){
+           console.log(value);
+      },
+      searchInput(value){
+        console.log(value);
       },
       //查询所有公告
       getMsg(){
@@ -300,9 +343,7 @@
 
 
 
-      searchInput(){
 
-      },
       //添加公告
       addMsg(){
         this.dialogFormVisible=true;
@@ -331,7 +372,7 @@
       }
     },
     beforeDestroy(){
-      clearInterval();
+      clearTimeout(this.timer)
     }
 
   };

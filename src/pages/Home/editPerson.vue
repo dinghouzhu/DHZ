@@ -383,7 +383,10 @@
         }
       }
     },
-
+   deactivated(){
+        //离开页面时更新列表
+     this.getusers();
+   },
     created(){
       this.getusers();
     },

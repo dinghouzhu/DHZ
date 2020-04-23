@@ -61,6 +61,36 @@
                 title="酒店详情"
                 :visible.sync="drawer"
                 :with-header="false">
+            <el-form :model="form">
+                <el-form-item label="酒店名称:" :label-width="formLabelWidth">
+                    <el-input v-model="form.hname" autocomplete="off" :disabled="disabled"></el-input>
+                </el-form-item>
+                <el-form-item label="酒店城市:" :label-width="formLabelWidth">
+                    <el-input v-model="form.hcity" autocomplete="off" :disabled="disabled"></el-input>
+                </el-form-item>
+                <el-form-item label="建造时间" :label-width="formLabelWidth">
+                    <el-input v-model="form.hopen" autocomplete="off" :disabled="disabled"></el-input>
+                </el-form-item>
+                <el-form-item label="电话:" :label-width="formLabelWidth">
+                    <el-input v-model="form.hphone" autocomplete="off" :disabled="disabled"></el-input>
+                </el-form-item>
+                <el-form-item label="营业时间:" :label-width="formLabelWidth">
+                    <el-input v-model="form.hrenovation" autocomplete="off" :disabled="disabled"></el-input>
+                </el-form-item>
+                <el-form-item label="酒店等级:" :label-width="formLabelWidth">
+                    <el-input v-model="form.lev" autocomplete="off" :disabled="disabled"></el-input>
+                </el-form-item>
+                <el-form-item label="酒店描述:" :label-width="formLabelWidth">
+                    <el-input v-model="form.hdesc" autocomplete="off" :disabled="disabled" type="textarea"
+                              :rows="4"></el-input>
+                </el-form-item>
+                <el-form-item label="评价:" :label-width="formLabelWidth">
+                    <template slot-scope="scope" >
+                        <!-- <el-rate v-model="scope.row.evaValue" :allow-half="true"  disabled show-score text-color="#ff9900" score-template="{value}"></el-rate> -->
+                        <el-rate v-model="form.lev" :allow-half="true"  disabled text-color="#ff9900"></el-rate>
+                    </template>
+                </el-form-item>
+            </el-form>
         </el-drawer>
 
 
@@ -77,11 +107,16 @@
             return {
                 Hotels:[],
                 drawer: false,
+                form:{},
+                formLabelWidth:'80px',
+                disabled:true,
             }
         },
       methods:{
 
         handleEdit(index,item){
+          console.log(index,item);
+          this.form=item;
           this.drawer=true;
           //  this.$router.push('/welcome/details');
           // localStorage.setItem("table", JSON.stringify(item))
@@ -109,5 +144,9 @@
 </script>
 
 <style scoped>
-
+    .el-input__inner textarea{
+        word-wrap:break-word;
+        word-break:break-all;
+        overflow: hidden;
+    }
 </style>

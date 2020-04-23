@@ -1,16 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-
-
 Vue.use(Vuex);
-
 
 export default new Vuex.Store({
   state: {
        turn:null,
        show:false,
-       include:['welcome','room','yiqing','order'],//缓存路由
+       include:['welcome','room','yiqing','order','editPerson'],//缓存路由
        disabled:true,
        menu_collapse:false,
        nickname:localStorage.getItem('nickname')||"",

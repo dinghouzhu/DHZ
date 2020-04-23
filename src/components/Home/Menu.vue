@@ -74,11 +74,11 @@
                   </el-menu-item>
                   <el-menu-item index="/order" >
                       <i class="el-icon-lock" style="color: white"></i>
-                      <span slot="title">测试页面</span>
+                      <span slot="title">发布公告</span>
                   </el-menu-item>
                   <el-menu-item index="/cata" :disabled="$store.state.disabled">
                       <i class="el-icon-lock" style="color: white"></i>
-                      <span slot="title">{{$store.state.disabled ? '主页测试(未开放)':'主页测试(测试)' }}</span>
+                      <span slot="title">{{$store.state.disabled ? '布局测试(未开放)':'布局测试(测试)' }}</span>
                   </el-menu-item>
                   <el-menu-item index="/oneself" :disabled="$store.state.disabled">
                       <i class="el-icon-service" style="color: white"></i>
