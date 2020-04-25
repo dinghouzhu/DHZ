@@ -23,7 +23,6 @@
 </template>
 
 <script>
-    import Menu from "../../components/Home/Menu";
     import Header from "../../components/Home/Header";
     import Music from "./oneself";
     import Tag from "../../components/Home/Tags"
@@ -33,7 +32,6 @@
       name:'index',
        components:{
          Tag,
-           Menu,
            Header,
          Music
        },

@@ -20,7 +20,7 @@
                 </el-select>
             </template>
             <el-button type="success" plain
-                       @click="dialogFormVisible=true">编写信息</el-button>
+                       @click="dialogForm">编写信息</el-button>
             <el-button type="danger" plain
                        @click="deleteRowhandleEdit">批量删除</el-button>
         </div>
@@ -67,7 +67,7 @@
                 fixed="right"
                 label="操作" align="center"
         >
-            <template slot-scope="scope">
+            <template    slot-scope="scope" >
                 <el-button type="primary" icon="el-icon-zoom-in" size="mini"
                            @click="handleEdit(scope.index, scope.row)"></el-button>
 
@@ -175,10 +175,8 @@
                     <el-input v-model="form.title" autocomplete="off" :disabled="disabled"></el-input>
                 </el-form-item>
                 <el-form-item label="权限等级:" :label-width="formLabelWidth">
-                    <template slot-scope="scope" >
                         <!-- <el-rate v-model="scope.row.evaValue" :allow-half="true"  disabled show-score text-color="#ff9900" score-template="{value}"></el-rate> -->
                         <el-rate v-model="form.level" :allow-half="true"  disabled text-color="#ff9900"></el-rate>
-                    </template>
                 </el-form-item>
                 <el-form-item label="内容:" :label-width="formLabelWidth">
                     <!--<el-input v-html="form.msg" autocomplete="off" :disabled="disabled" type="textarea"-->
@@ -262,6 +260,10 @@
 
     methods:{
       ...mapActions(['getBusinessQyxz']),
+      dialogForm(){
+        this.form={};
+        this.dialogFormVisible=true
+      },
       //利用循环批量删除
       deleteRowhandleEdit(){
         let token=localStorage.getItem('token');
@@ -298,7 +300,7 @@
       },
       //显示该条公告
       handleEdit(index,row){
-        this.form=row
+        this.form=row;
         this.drawer=true;
         // this.$message({
         //   type:'warning',
@@ -331,9 +333,7 @@
                       message:res.data.msg
                     });
                   }, 700);
-
                   _this.getMsg();
-
                 }
               })
               .catch(err=>{
@@ -374,7 +374,22 @@
       getMsg(){
         getMessage()
           .then(res=>{
-            this.dataTable=res.data.data.res;
+            if (res.data.code == 200) {
+              this.dataTable=[];//先清空
+              let tableData=res.data.data.res;
+              tableData.map(item=>{
+                this.dataTable.push(
+                  {
+                    id:item.id,
+                    username:item.username,
+                    level:parseInt(item.level), //防止页面报错 必须是整型数字
+                    title:item.title,
+                    msg:item.msg,
+                    date:item.date
+                  },)
+              });
+            }
+
           })
           .catch(err=>{
             console.log(err);
@@ -383,6 +398,7 @@
       //添加公告
       sendMsg(){
      // username,nickname,date,title,msg,token
+
         let {username,level,title,msg}=this.form;
         if (level ==='' ||level === null ||level === undefined){
           level=1;

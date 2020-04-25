@@ -85,10 +85,10 @@
                               :rows="4"></el-input>
                 </el-form-item>
                 <el-form-item label="评价:" :label-width="formLabelWidth">
-                    <template slot-scope="scope" >
+                    <!--<template slot="scope" >-->
                         <!-- <el-rate v-model="scope.row.evaValue" :allow-half="true"  disabled show-score text-color="#ff9900" score-template="{value}"></el-rate> -->
                         <el-rate v-model="form.lev" :allow-half="true"  disabled text-color="#ff9900"></el-rate>
-                    </template>
+                    <!--</template>-->
                 </el-form-item>
             </el-form>
         </el-drawer>

@@ -27,52 +27,6 @@ axios.interceptors.response.use(function (config) {
 */
 
 
-
-//获取登入日志
-export const getLoginLog=()=>axios({
-    url:"http://106.12.176.212:8080/getloginlog",
-});
-export const getClass=()=>axios({
-    url:"http://106.12.176.212:8080/students/getstulist",
-});
-export const delStu=(sId,token)=>axios({
-    url:"http://106.12.176.212:8080/students/delstu",
-    method:'get',
-    params:{
-        sId,
-        token
-    }
-});
-//添加数据
-export const addstu=(data)=>axios({
-    url:"http://106.12.176.212:8080/students/addstu",
-    method:'post',
-    data:data,
-});
-//更新数据
-export const editStuInfo=data=>axios({
-    url:"http://106.12.176.212:8080/students/updatestu",
-    method:'post',
-    data
-});
-//查找数据
-export const searchStu=params=>axios({
-    url:"http://106.12.176.212:8080/students/searchstu",
-    params
-});
-
-//班级列表
-export const getClasses=data=>axios({
-       url:"http://106.12.176.212:8080/students/getclasses",
-       method:'get',
-       data
-    });
-
-
-
-
-
-
 //定义登陆方法
 export const login=(username,password)=>axios({
     url:"http://106.12.176.212:8080/user/login",
@@ -216,13 +170,18 @@ export const getAgain=(token)=>axios({
 
 //登录日志
 export const loginLog=(username,nickname,date,IP)=>axios({
-  url:"http://106.12.176.212:8080/user/loginLog",
+  url:"http://106.12.176.212:8080/login/loginLog",
   method:'post',
   data:{
     username,nickname,date,IP
   }
 });
 
+//查询登录日志
+export const selectloginLog=()=>axios({
+  url:"http://106.12.176.212:8080/login/log",
+  method:'post',
+});
 
 //世界新冠疫情各国疫情
 export const getXinguan=()=>axios({

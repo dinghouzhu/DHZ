@@ -79,7 +79,7 @@
                 newList:null,
                 MusicName:null,
                 musicList:[],
-                NowMusic:require('../../assets/img/Masque_Jupiter - 亡灵序曲（纯钢琴）.mp3'),
+                NowMusic:'',
                 music:{
                     isPlay:false,
                     currentTime:0,

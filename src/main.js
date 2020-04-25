@@ -3,22 +3,18 @@ import App from "./App.vue";
 import store from "./store";
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import FastClick from 'fastclick'
 import router from "./router";
 import "./assets/styles/global.css";
 import  "./assets/styles/el-resets.css";
-import ViewUI from 'view-design';
-import 'view-design/dist/styles/iview.css';
 import VueParticles from 'vue-particles'
 import axios from "axios"
 import echarts from 'echarts';
 Vue.prototype.$echarts = echarts;
-Vue.use(ViewUI);
 Vue.use(ElementUI);
 Vue.use(VueParticles);   //登录页的粒子效果
 Vue.config.productionTip = false;
 Vue.prototype.$http = axios;  //将axios请求继承到vue原型上
-FastClick.attach(document.body); //解决移动端点击问题
+
 
 //重写localstorage的设置方法,增添时间
 /*

@@ -42,6 +42,7 @@
               <!--动态渲染菜单-->
 
               <el-menu
+                      menu-trigger="click"
                       background-color="#026bf4"
                       class="el-menu-demo"
                       mode="horizontal"
@@ -49,7 +50,7 @@
                        :router="true"
                        text-color="white"
                       active-text-color="white"
-
+                      unique-opened
               >
                   <el-menu-item index="/welcome">首页</el-menu-item>
                   <el-submenu index="1" >
@@ -65,26 +66,34 @@
                           <i class="el-icon-user" style="color: white"></i>
                           <span slot="title">用户管理</span>
                       </el-menu-item>
+                  </el-submenu>
+                  <el-submenu index="2" >
+                      <template slot="title">
+                          <i class="el-icon-menu" style="color: white"></i>
+                          <span slot="title">其他处理</span>
+                      </template>
 
-
+                      <el-menu-item index="/order" >
+                          <i class="el-icon-lock" style="color: white"></i>
+                          <span slot="title">发布公告</span>
+                      </el-menu-item>
+                      <el-menu-item index="/cata" :disabled="$store.state.disabled">
+                          <i class="el-icon-lock" style="color: white"></i>
+                          <span slot="title">{{$store.state.disabled ? '布局测试(未开放)':'布局测试(测试)' }}</span>
+                      </el-menu-item>
+                      <el-menu-item index="/oneself" :disabled="$store.state.disabled">
+                          <i class="el-icon-service" style="color: white"></i>
+                          <span slot="title">{{$store.state.disabled ? '音乐页测试(未开放)':'音乐页测试(测试)' }}</span>
+                      </el-menu-item>
                   </el-submenu>
                   <el-menu-item index="/details" >
                       <i class="el-icon-s-opportunity" style="color: white"></i>
                       <span slot="title">疫情防控</span>
                   </el-menu-item>
-                  <el-menu-item index="/order" >
-                      <i class="el-icon-lock" style="color: white"></i>
-                      <span slot="title">发布公告</span>
+                  <el-menu-item index="/loginlog" >
+                      <i class="el-icon-s-opportunity" style="color: white"></i>
+                      <span slot="title">日志记录</span>
                   </el-menu-item>
-                  <el-menu-item index="/cata" :disabled="$store.state.disabled">
-                      <i class="el-icon-lock" style="color: white"></i>
-                      <span slot="title">{{$store.state.disabled ? '布局测试(未开放)':'布局测试(测试)' }}</span>
-                  </el-menu-item>
-                  <el-menu-item index="/oneself" :disabled="$store.state.disabled">
-                      <i class="el-icon-service" style="color: white"></i>
-                      <span slot="title">{{$store.state.disabled ? '音乐页测试(未开放)':'音乐页测试(测试)' }}</span>
-                  </el-menu-item>
-
               </el-menu>
           </el-col>
       </el-row>
@@ -103,7 +112,7 @@
                 active-text-color="white"
 
         >
-        <el-submenu index="2" >
+        <el-submenu index="3" >
             <template slot="title">
                 <span slot="title">欢迎你:{{nickname}}</span>
             </template>
@@ -119,7 +128,6 @@
                 <i class="el-icon-user" style="color: white"></i>
                 <span slot="title">退出</span>
             </el-menu-item>
-
 
         </el-submenu>
         </el-menu>
@@ -143,7 +151,6 @@ export default {
   },
     methods:{
       ...mapMutations(['changeMenuDisabled']),
-
 
       handleSelect(key, keyPath) {
         console.log(key, keyPath);

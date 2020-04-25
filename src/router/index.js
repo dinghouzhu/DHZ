@@ -1,17 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import NotFound from "../components/Home/notFound"
-import product  from "../pages/Home/product";
 import addPerson from "../pages/Home/addPerson";
 import editPerson from "../pages/Home/editPerson";
-import Cata from "../pages/Home/Catalog";
-import Oneself from "../pages/Home/oneself";
 import Room from "../pages/Home/room";
 import Login from "../components/Home/Login";
 import Home from "../pages/Home/index";
 import Welcome from "../pages/Home/welcome";
 import Order from "../components/babel/order";
-import Details from "../components/babel/details"
+import Details from "../components/babel/details";
+import Loginlog from "../pages/Home/Loginlog"
 Vue.use(VueRouter);
 // 重写路由的push方法
 //  * 解决，相同路由跳转时，报错
@@ -53,12 +51,12 @@ const routes=[
             }
           },
           {
-            name:'product',
-            path:'/product',
-            component:product,
+            name:'Loginlog',
+            path:'/loginlog',
+            component:Loginlog,
             meta:{
               keepAlive:false,
-              title:'product'
+              title:'登陆日志'
             }
           },
           {
