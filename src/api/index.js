@@ -183,6 +183,16 @@ export const selectloginLog=()=>axios({
   method:'post',
 });
 
+//分页查询登录日志
+export const selectLimitLog=(page)=>axios({
+  url:"http://localhost:8080/login/limitlog",
+  method:'post',
+  data:{
+    page
+  },
+  timeout: 5000
+});
+
 //世界新冠疫情各国疫情
 export const getXinguan=()=>axios({
   url:"https://api.inews.qq.com/newsqa/v1/automation/foreign/country/ranklist",
@@ -231,11 +241,11 @@ export const deleteMsg=(id,token)=>axios({
   timeout: 5000
 });
 
-
-
 //货权权限列表
 export const getJur=()=>axios({
   url:"http://106.12.176.212:8080/jur/jur",
   method:'post',
   timeout: 5000
 });
+
+

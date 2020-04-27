@@ -274,19 +274,23 @@
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
+            const loading = this.$loading({
+              lock: true,
+              text: '正在删除...',
+              spinner: 'el-icon-loading',
+              background: 'rgba(0, 0, 0, 0.7)'
+            });
             Id.map(function(item) {
               console.log(item);
               deleteMsg(item,token)
                 .then(res=>{
                   if (res.data.code ==200){
-                    _this.$message({
-                      type:'success',
-                      message:res.data.msg
-                    });
-                    _this.getMsg()
+                    _this.getMsg();
                   }
+                  loading.close();
                 })
                 .catch(err=>{
+                  loading.close();
                   console.log(err);
                 })
             });
@@ -302,10 +306,7 @@
       handleEdit(index,row){
         this.form=row;
         this.drawer=true;
-        // this.$message({
-        //   type:'warning',
-        //   message:'暂未实现'
-        // });
+
       },
       //删除单条公告
       deleteRow(index,row){
@@ -337,6 +338,7 @@
                 }
               })
               .catch(err=>{
+                loading.close();
                 console.log(err);
               })
 

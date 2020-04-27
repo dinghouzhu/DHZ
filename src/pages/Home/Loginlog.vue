@@ -1,27 +1,27 @@
 <template>
     <div class="content">
 
-        <div class="search">
-<!--            远程搜索框-->
-            <template>
-                <el-select v-model="value"
-                           @change="searchResultChange"
-                           clearable
-                           filterable
-                           remote
-                           reserve-keyword
-                           placeholder="请输入学员姓名 "
-                           :remote-method="searchInput">
-                    <el-option v-for="item in searchResult"
-                               :key="item.value"
-                               :value="item.name">
-                    </el-option>
-                </el-select>
-            </template>
+        <!--<div class="search">-->
+<!--&lt;!&ndash;            远程搜索框&ndash;&gt;-->
+            <!--<template>-->
+                <!--<el-select v-model="value"-->
+                           <!--@change="searchResultChange"-->
+                           <!--clearable-->
+                           <!--filterable-->
+                           <!--remote-->
+                           <!--reserve-keyword-->
+                           <!--placeholder="请输入学员姓名 "-->
+                           <!--:remote-method="searchInput">-->
+                    <!--<el-option v-for="item in searchResult"-->
+                               <!--:key="item.value"-->
+                               <!--:value="item.name">-->
+                    <!--</el-option>-->
+                <!--</el-select>-->
+            <!--</template>-->
 
-            <el-button type="success"
-                       @click="addStuInfo('addDialog')">添加信息</el-button>
-        </div>
+            <!--<el-button type="success"-->
+                       <!--@click="addStuInfo('addDialog')">添加信息</el-button>-->
+        <!--</div>-->
 
             <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :rules="stuRules" ref="ruleForm">
                 <el-form :model="stuForm">
@@ -68,33 +68,12 @@
             </el-dialog>
 
 
-        <!--<div class="select-class">-->
-            <!--<b>选择班级</b>-->
-            <!--<el-select v-model="classValue"-->
-                       <!--@click.native="searchClassMenu"-->
-                       <!--@change="chooseClasses"-->
-                      <!--&gt;-->
-                <!--<el-option value="all"-->
-                           <!--label="全部"-->
-                <!--&gt;</el-option>-->
-                <!--<el-option v-for="item in classes"-->
-                           <!--:key="item.value"-->
-                           <!--:value="item">-->
-                <!--</el-option>-->
-            <!--</el-select>-->
-        <!--</div>-->
-
-
         <template>
         <el-table
                 :data="logss"
                 style="width: 100%;margin-top:20px"
                >
-            <!--<el-table-column label="头像" width="80px" height="80px" align="center">-->
-                <!--<template slot-scope="scope">-->
-                    <!--<img width="100%" height="100%" :src="scope.row.avatarUrl" alt />-->
-                <!--</template>-->
-            <!--</el-table-column>-->
+
 
             <el-table-column align="center"
                     prop="id"
@@ -141,7 +120,7 @@
                     background
                     layout="prev, pager, next"
                     :total="total"
-                    :page-size="pageSize"
+                    :page-size="page"
                      @current-change="pagechange">
             </el-pagination>
 
@@ -149,13 +128,14 @@
 </template>
 
 <script>
-    import {selectloginLog} from "../../api"
+    import {selectloginLog,selectLimitLog} from "../../api"
     export default {
       name:'Loginlog',
         data() {
             return {
+                limitPage:'',
                 total: 100,
-                pageSize: 5,
+                page: 5,
                 dialogVisible: false,//用于定义dialog是否显示
                 dialogEvents: "",//保存用于触发dialog的事件名
                 dialogTitle: "",//dialog标题
@@ -208,7 +188,7 @@
         mounted() {
             // this.upDateList();
             // this.upDatedList();
-
+           this.pagechange();
         },
 
         methods: {
@@ -217,7 +197,7 @@
            selectloginLog()
              .then(res=>{
                let tableData=res.data.data.res;
-               this.logss=tableData;
+               //this.logss=tableData;
                this.total=tableData.length
              })
              .catch(err=>{
@@ -225,38 +205,41 @@
              })
          },
 
-            //分页
-            upDatedList() {
-                getStuList(10, 1)
-                    .then(res => {
-                        this.total = res.data.total;
-                        this.logss = res.data.data;
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
-            },
-            pagechange(pageSize) {
-                console.log(pageSize);
-                // this.logss.map((item,index)=>{
-              //   console.log(item,index);
-              // })
-               this.$message({
-                 type:'warning',
-                 message:'暂未实现'
-               })
+
+            pagechange(limit) {
+              const loading = this.$loading({
+                lock: true,
+                text: '正在查询...',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
+                clearTimeout();
+                let _this=this;
+              setTimeout(()=>{
+                selectLimitLog(limit)
+                  .then(res=>{
+                    loading.close();
+                    _this.logss=res.data.data.res
+                  })
+                  .catch(err=>{
+                    loading.close();
+                    console.log(err);
+                  },1500);
+              })
+
+
             },
 
-            chooseClasses(key) {
-                if (key === "all") {
-                    this.upDateList()
-                } else {
-                    getClass().then(res => {
-                        this.logss = res.data.data;
-                        this.logss = this.logss.filter(item => item.class === key);
-                    });
-                }
-            },
+            // chooseClasses(key) {
+            //     if (key === "all") {
+            //         this.upDateList()
+            //     } else {
+            //         getClass().then(res => {
+            //             this.logss = res.data.data;
+            //             this.logss = this.logss.filter(item => item.class === key);
+            //         });
+            //     }
+            // },
 
             searchClassMenu() {
                 getClasses()
