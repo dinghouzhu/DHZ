@@ -78,15 +78,7 @@
             </template>
         </el-table-column>
     </el-table>
-        <!--<el-pagination-->
-                <!--@size-change="handleSizeChange"-->
-                <!--@current-change="handleCurrentChange"-->
-                <!--:current-page="currentPage"-->
-                <!--:page-sizes="[5, 10, 20, 40]"-->
-                <!--:page-size="pagesize"-->
-                 <!--layout="total, sizes, prev, pager, next, jumper"-->
-                <!--:total="dataTable.length">-->
-        <!--</el-pagination>-->
+
         <el-dialog title="编辑公告" :visible.sync="dialogFormVisible" :modal="false" width="100%" >
             <el-form :model="form">
                 <el-form-item label="活动名称:" :label-width="formLabelWidth">
@@ -225,8 +217,6 @@
       return{
         disabled:true,
         drawer:false,
-        currentPage:1, //初始页
-        pagesize:5,    //    每页的数据
         editorOption: {
           placeholder: "请输入",
           theme: "snow", // or 'bubble'
@@ -269,6 +259,7 @@
         let token=localStorage.getItem('token');
         let Id=this.multipleSelection;
         var _this=this;
+
           this.$confirm('此操作将永久删除公告, 是否继续?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
@@ -280,20 +271,28 @@
               spinner: 'el-icon-loading',
               background: 'rgba(0, 0, 0, 0.7)'
             });
-            Id.map(function(item) {
-              console.log(item);
-              deleteMsg(item,token)
-                .then(res=>{
-                  if (res.data.code ==200){
-                    _this.getMsg();
-                  }
-                  loading.close();
-                })
-                .catch(err=>{
-                  loading.close();
-                  console.log(err);
-                })
-            });
+            let level=localStorage.getItem('level');
+            if (level != 3){
+              loading.close();
+              this.$message({
+                type:'error',
+                message:'没有权限'
+              })
+            }else {
+              Id.map(function(item) {
+                deleteMsg(item,token)
+                  .then(res=>{
+                    if (res.data.code ==200){
+                      _this.getMsg();
+                    }
+                    loading.close();
+                  })
+                  .catch(err=>{
+                    loading.close();
+                    console.log(err);
+                  })
+              });
+            }
           })
             .catch(err=>{
               this.$message({
@@ -313,6 +312,7 @@
         var token=localStorage.getItem('token');
         var _this=this;
         var id=row.id;
+        let level=localStorage.getItem('level');
         this.$confirm('此操作将永久删除该条公告, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -324,6 +324,13 @@
             spinner: 'el-icon-loading',
             background: 'rgba(0, 0, 0, 0.7)'
           });
+          if (level != 3) {
+            loading.close();
+            this.$message({
+              type:'error',
+              message:'没有权限'
+            })
+          }else {
             deleteMsg(id,token)
               .then(res=>{
                 if (res.data.code ==200){
@@ -341,13 +348,14 @@
                 loading.close();
                 console.log(err);
               })
-
+          }
 
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'
           });
+
         });
 
       },

@@ -170,7 +170,7 @@ export const getAgain=(token)=>axios({
 
 //登录日志
 export const loginLog=(username,nickname,date,IP)=>axios({
-  url:"http://106.12.176.212:8080/login/loginLog",
+  url:"http://106.12.176.212:8080/log/loginLog",
   method:'post',
   data:{
     username,nickname,date,IP
@@ -179,16 +179,26 @@ export const loginLog=(username,nickname,date,IP)=>axios({
 
 //查询登录日志
 export const selectloginLog=()=>axios({
-  url:"http://106.12.176.212:8080/login/log",
+  url:"http://106.12.176.212:8080/log/log",
   method:'post',
 });
 
 //分页查询登录日志
 export const selectLimitLog=(page)=>axios({
-  url:"http://localhost:8080/login/limitlog",
+  url:"http://106.12.176.212:8080/log/limitlog",
   method:'post',
   data:{
     page
+  },
+  timeout: 5000
+});
+
+//删除单条日志
+export const deleteLog=(id,token)=>axios({
+  url:"http://106.12.176.212:8080/log/deleteLog",
+  method:'post',
+  data:{
+    id,token
   },
   timeout: 5000
 });
