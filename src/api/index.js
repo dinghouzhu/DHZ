@@ -112,9 +112,6 @@ export const updateUser=(username,password,nickname,des,habit,sex,age,token)=>ax
 export const getHotel=()=>axios({
   url:"http://106.12.176.212:8080/hotel/hotel",
   method:'post',
-  params:{
-
-  },
   timeout: 5000
 });
 
@@ -129,7 +126,7 @@ export const getRooms=()=>axios({
 });
 
 //插入新订单
-export const updateOrders=(username,roomid,type,price,breakfast ,date,token)=>axios({
+export const upDateOrders=(username,roomid,type,price,breakfast ,date,token)=>axios({
   url:"http://106.12.176.212:8080/order/insert",
   method:'post',
   data:{

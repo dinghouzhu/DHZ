@@ -78,7 +78,7 @@
 </template>
 
 <script>
-    import {getRooms,updateOrders} from "../../api"
+    import {getRooms,upDateOrders} from "../../api"
   export default {
     name:'room',
     data() {
@@ -124,7 +124,7 @@
         var {username,rid,rtype,rprice,rbreakfast}=this.roomForm;
         //username,roomid,type,price,breakfast ,date,token
         var token=localStorage.getItem('token');
-        updateOrders(username,rid,rtype,rprice,rbreakfast,nowDate,token)
+        upDateOrders(username,rid,rtype,rprice,rbreakfast,nowDate,token)
           .then(res=>{
             console.log(res);
             if (res.data.code == 200 ){
@@ -159,5 +159,8 @@
     created(){
       this.getRoom();
     },
+    mounted(){
+      console.log(this.$refs.ruleForm);
+    }
   }
 </script>

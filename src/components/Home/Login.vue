@@ -30,7 +30,7 @@
 
                <el-form-item>
                    <el-button  @click="submitForm('loginForm')" id="btn1" class="btn btn-primary btn-ghost btn-shine" style="margin-right: 15px">登陆</el-button>
-                   <el-button id="btn2" class="btn btn-primary btn-ghost btn-shine" style="margin-left: 15px">重置</el-button>
+                   <el-button id="btn2" class="btn btn-primary btn-ghost btn-shine" style="margin-left: 15px" @click="resetForm('loginForm')">重置</el-button>
                </el-form-item>
            </el-form>
 
@@ -63,17 +63,10 @@
 <div>
 
 
-
-
 </div>
 
 
-
-
    </div>
-
-
-
 
 </template>
 
@@ -217,9 +210,7 @@
         });
 
       },
-
-
-
+      //重置输入框
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
@@ -237,6 +228,7 @@
   }
 </script>
 <style>
+    @import url(https://fonts.googleapis.com/css?family=Lato);
     #login label{
         color: white;
         cursor: pointer;
@@ -278,7 +270,7 @@
         width: 100%;
         height: 100%;
     }
-    @import url(https://fonts.googleapis.com/css?family=Lato);
+
 
 
 

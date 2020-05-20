@@ -309,7 +309,7 @@
           var { username, password, nickname, des, habit, sex, age } = this.userForm;
           updateUser(username, password, nickname, des, habit, sex, age,token)
             .then(res => {
-              if (res.data.code == 200 && res.data.msg == '信息修改成功') {
+              if (res.data.code == 200) {
                 _this.$message({
                   type: 'success',
                   message: res.data.msg
