@@ -17,7 +17,7 @@
     "element-ui": "^2.12.0",
     "fastclick": "^1.0.6",
     "http-proxy-middleware": "^1.0.3",
-    "qs": "^6.9.1",
+    "qs": "^6.9.7",
     "vue": "^2.6.10",
     "vue-jsonp": "^0.1.8",
     "vue-particles": "^1.0.9",
